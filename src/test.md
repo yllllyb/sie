@@ -8,10 +8,6 @@ things
 
 <span style="color:red;">这是比font标签更好的方式。可以试试。</span>
 
-<table><tr><td bgcolor=yellow>背景色yellow</td></tr></table>
+<table align="left"><tr><td bgcolor=yellow>背景色yellow</td></tr></table>
 
 <table><tr><td bgcolor=yellow><font color=#0099ff >黑体</font></td></tr></table>
-
-$\color{DarkTurquoise}{否则的话}$
-
-$\color{DarkTurquoise}{or this?}$
