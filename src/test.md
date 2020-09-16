@@ -1,4 +1,4 @@
 # title
 
 things  
-<font color=#0099ff face="黑体">黑体</font>
+<font color=#0099ff >黑体</font>
