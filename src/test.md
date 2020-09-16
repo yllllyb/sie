@@ -1,4 +1,4 @@
 # title
 
 things  
-$\color{#000000}{颜色测试}$
+<font color=#0099ff face="黑体">黑体</font>
