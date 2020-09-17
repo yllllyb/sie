@@ -10,7 +10,9 @@
 
 <br/><br/>
 
-<sub>折按在左边，如果没有显示的话，点一下左上角最左边的图案。</sub>
+<blockquote>
+<p style="font-size:40%">折按在左边，如果没有显示的话，点一下左上角最左边的图案。<p>
+</blockquote>
 
 <br/>
 
