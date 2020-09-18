@@ -16,4 +16,4 @@ jobs:
         with:
           mdbook-version: 'latest'
 
-      - run: mdbook init --theme
+      - run: mdbook init --theme y n
