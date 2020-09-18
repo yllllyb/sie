@@ -5,5 +5,4 @@ description = "About AL"
 language = "zh_CN"
 multilingual = false
 [output.html]
-theme = "theme"
-# addition-css = ["theme/style.css"]
+addition-css = ["theme/style.css"]
