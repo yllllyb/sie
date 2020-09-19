@@ -16,7 +16,7 @@ jobs:
         with:
           mdbook-version: 'latest'
 
-      - run: echo y |mdbook init --theme
+      - run: echo y |echo n |mdbook init --theme |echo y |echo n
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
