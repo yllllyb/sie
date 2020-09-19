@@ -3,7 +3,9 @@
 - [前](pre.md)
 
 <details>
-<summary>- [真实之理](./7411/README.md)</summary>
+  <summary>
+    - [真实之理](./7411/README.md)
+  </summary>
   - [test](./7411/test.md)
 </details>
 
