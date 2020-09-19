@@ -1,9 +1,8 @@
 [book]
-title = "siehyle"
-authors = "ylll"
-description = "About AL"
-language = "zh_CN"
+authors = ["ylll"]
+language = "zh"
 multilingual = false
+src = "src"
+title = "sie"
 [output.html]
-additional-css = ["theme/style.css"]
-# additional-js=[]
+theme=["src/theme"]
