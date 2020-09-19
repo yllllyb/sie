@@ -5,5 +5,5 @@ description = "About AL"
 language = "zh_CN"
 multilingual = false
 [output.html]
-additional-css = ["theme/style.css","theme/expandable-chapters.css"]
-additional-js=["theme/expandable-chapters.js"]
+additional-css = ["theme/style.css"]
+# additional-js=[]
