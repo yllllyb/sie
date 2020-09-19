@@ -2,12 +2,9 @@
 
 - [前](pre.md)
 
-<details>
-  <summary>
-    - [真实之理](./7411/README.md)
-  </summary>
+- [真实之理](./7411/README.md)
+
   - [test](./7411/test.md)
-</details>
 
 - [繁星之律](./6371/README.md)
 
