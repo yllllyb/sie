@@ -126,15 +126,20 @@ table tbody tr:nth-child(2n) {
 }
 
 
-blockquote {
-    margin: 20px 0;
-    padding: 0 20px;
-    color: var(--fg);
-    background-color: var(--quote-bg);
-    border-top: .1em solid var(--quote-border);
-    border-bottom: .1em solid var(--quote-border);
-}
 
+blockquote{
+    margin: 0;
+    margin-bottom: .85em;
+    padding: 0px 15px;
+    color: var(--fg);
+    background-color: var(--bg);
+    border-width: 3px 0 3px 8px;
+    border-style: solid;
+    border-image: -webkit-linear-gradient(var(--quote-bg), var(--quote-border)) 1 0 1 1000;
+    border-image: -moz-linear-gradient(var(--quote-bg), var(--quote-border)) 1 0 1 1000;
+    border-image: -o-linear-gradient(var(--quote-bg), var(--quote-border)) 1 0 1 1000;
+    border-image:  linear-gradient(var(--quote-bg), var(--quote-border)) 1 0 1 1000;
+}
 
 :not(.footnote-definition) + .footnote-definition,
 .footnote-definition + :not(.footnote-definition) {
