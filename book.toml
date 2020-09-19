@@ -6,4 +6,4 @@ language = "zh_CN"
 multilingual = false
 [output.html]
 additional-css = ["theme/style.css","theme/expandable-chapters.css"]
-additional-js=["expandable-chapters.js"]
+additional-js=["theme/expandable-chapters.js"]
