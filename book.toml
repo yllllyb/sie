@@ -7,4 +7,4 @@ title = "sie"
 [output.html]
 theme = "src/theme"
 additional-css = ["add/expandable-chapters.css"]
-additional-js = ["add/expandable-chapters.js", "add/gitbook.js"]
+additional-js = ["add/gitbook.js", "add/expandable-chapters.js", "add/theme.js"]
