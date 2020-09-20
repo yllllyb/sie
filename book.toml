@@ -7,7 +7,6 @@ title = "sie"
 
 [output.html]
 no-section-label = true
-copy-fonts = false
 theme = "src/theme"
 
 [output.html.fold]
