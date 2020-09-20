@@ -409,7 +409,7 @@ ul#searchresults span.teaser em {
     cursor: pointer;
     display: block;
     margin-left: auto;
-    padding: 0 150px;
+    padding: 0 10px;
     user-select: none;
     opacity: 0.68;
 }
