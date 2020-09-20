@@ -2,6 +2,7 @@
 <html lang="zh" class="sidebar-visible no-js light">
     <head>
         <!-- Book generated using mdBook -->
+        <!-- 这就是个辣鸡玩意，不过好在它不复杂，可以调整的地方十分多 -->
         <meta charset="UTF-8">
         <title>真实之理 - sie</title>
         
@@ -31,8 +32,6 @@
         <!-- Fonts -->
         <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
         
-        <link rel="stylesheet" href="../fonts/fonts.css">
-        
 
         <!-- Highlight.js Stylesheets -->
         <link rel="stylesheet" href="../highlight.css">
@@ -40,8 +39,6 @@
         <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
-        
-        <link rel="stylesheet" href="../add/expandable-chapters.css">
         
 
         
@@ -54,6 +51,7 @@
         </script>
 
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <!-- 这是个啥玩意？？ -->
         <script type="text/javascript">
             try {
                 var theme = localStorage.getItem('mdbook-theme');
@@ -95,8 +93,10 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="../pre.html"><strong aria-hidden="true">1.</strong> 前</a></li><li class="chapter-item expanded "><a href="../7411/index.html" class="active"><strong aria-hidden="true">2.</strong> 真实之理</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../7411/test.html"><strong aria-hidden="true">2.1.</strong> test</a></li></ol></li><li class="chapter-item expanded "><a href="../6371/index.html"><strong aria-hidden="true">3.</strong> 繁星之律</a></li><li class="chapter-item expanded "><a href="../1136/index.html"><strong aria-hidden="true">4.</strong> 涧水之迹</a></li><li class="chapter-item expanded "><a href="../4785/index.html"><strong aria-hidden="true">5.</strong> 蔓萝之叶</a></li><li class="chapter-item expanded "><a href="../9321/index.html"><strong aria-hidden="true">6.</strong> 环星之舰</a></li><li class="chapter-item expanded "><a href="../8102/index.html"><strong aria-hidden="true">7.</strong> 坠神之海</a></li></ol>
+            <!-- 看起来这个toc就是关键 -->
+                <ol class="chapter"><li class="chapter-item "><a href="../pre.html">前</a></li><li class="chapter-item expanded "><a href="../7411/index.html" class="active">真实之理</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../7411/test.html">test</a></li></ol></li><li class="chapter-item "><a href="../6371/index.html">繁星之律</a></li><li class="chapter-item "><a href="../1136/index.html">涧水之迹</a></li><li class="chapter-item "><a href="../4785/index.html">蔓萝之叶</a></li><li class="chapter-item "><a href="../9321/index.html">环星之舰</a></li><li class="chapter-item "><a href="../8102/index.html">坠神之海</a></li></ol>
             </div>
+            <!-- 这里自带了目录表resize -->
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
@@ -235,12 +235,6 @@
         <script src="../book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
-        
-        <script type="text/javascript" src="../add/gitbook.js"></script>
-        
-        <script type="text/javascript" src="../add/expandable-chapters.js"></script>
-        
-        <script type="text/javascript" src="../add/theme.js"></script>
         
 
         
