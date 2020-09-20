@@ -2,6 +2,7 @@
 <html lang="{{ language }}" class="sidebar-visible no-js {{ default_theme }}">
     <head>
         <!-- Book generated using mdBook -->
+        <!-- 这就是个辣鸡玩意，不过好在它不复杂，可以调整的地方十分多 -->
         <meta charset="UTF-8">
         <title>{{ title }}</title>
         {{#if is_print }}
@@ -60,6 +61,7 @@
         </script>
 
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <!-- 这是个啥玩意？？ -->
         <script type="text/javascript">
             try {
                 var theme = localStorage.getItem('mdbook-theme');
@@ -101,8 +103,10 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
+            <!-- 看起来这个toc就是关键 -->
                 {{#toc}}{{/toc}}
             </div>
+            <!-- 这里自带了目录表resize -->
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 

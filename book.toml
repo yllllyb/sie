@@ -4,7 +4,12 @@ language = "zh"
 multilingual = false
 src = "src"
 title = "sie"
+
 [output.html]
+no-section-label = true
+copy-fonts = false
 theme = "src/theme"
-additional-css = ["add/expandable-chapters.css"]
-additional-js = ["add/gitbook.js", "add/expandable-chapters.js", "add/theme.js"]
+
+[output.html.fold]
+enable = true
+level = 0
