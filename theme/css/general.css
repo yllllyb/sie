@@ -135,10 +135,10 @@ blockquote{
     background-color: var(--bg);
     border-width: 3px 0 3px 8px;
     border-style: solid;
-    border-image: -webkit-linear-gradient(var(--quote-bg), var(--quote-border)) 1 0 1 1000;
-    border-image: -moz-linear-gradient(var(--quote-bg), var(--quote-border)) 1 0 1 1000;
-    border-image: -o-linear-gradient(var(--quote-bg), var(--quote-border)) 1 0 1 1000;
-    border-image:  linear-gradient(var(--quote-bg), var(--quote-border)) 1 0 1 1000;
+    border-image: -webkit-linear-gradient(var(--quote-border), var(--quote-bg)) 1 0 1 1000;
+    border-image: -moz-linear-gradient(var(--quote-border), var(--quote-bg)) 1 0 1 1000;
+    border-image: -o-linear-gradient(var(--quote-border), var(--quote-bg)) 1 0 1 1000;
+    border-image:  linear-gradient(var(--quote-border), var(--quote-bg)) 1 0 1 1000;
 }
 
 :not(.footnote-definition) + .footnote-definition,
