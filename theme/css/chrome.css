@@ -448,7 +448,7 @@ ul#searchresults span.teaser em {
 
 .section {
     list-style: none outside none;
-    padding-left: 0px;
+    padding-left: 4px;
     line-height: 1.9em;
 }
 
