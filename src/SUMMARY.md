@@ -10,7 +10,7 @@
   - [long title](./7411/long.md)
     - [test](./7411/test.md)
 - [繁星之律](./6371/README.md)
-  - [send](.6371/send.md)
+  - [send](./6371/send.md)
 - [涧水之迹](./1136/README.md)
 - [蔓萝之叶](./4785/README.md)
 - [环星之舰](./9321/README.md)
