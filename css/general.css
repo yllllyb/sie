@@ -2,6 +2,10 @@
 
 @import 'variables.css';
 
+:focus {
+    outline: none;
+}
+
 :root {
     /* Browser default font-size is 16px, this way 1 rem = 10px */
     font-size: 62.5%;
