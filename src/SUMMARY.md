@@ -1,12 +1,14 @@
+# SUMMARY
+
 - [前](pre.md)
 
 - [真实之理](./7411/README.md)
 
-  - [long title](./7411/long.md)
-
-    - [tes](./7411/test.md)
-
-      - [tttt](./7411/test.md)
+    - [long title](./7411/long.md)
+  
+      - [tes](./7411/test.md)
+    
+        - [tttt](./7411/test.md)
 
 - [繁星之律](./6371/README.md)
 
