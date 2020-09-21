@@ -408,7 +408,7 @@ ul#searchresults span.teaser em {
 .chapter li > a.toggle {
     cursor: pointer;
     display: block;
-    margin-left: -75px;
+    margin-left: -81px;
     padding: 0 10px;
     user-select: none;
     opacity: 0.68;
