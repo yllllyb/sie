@@ -6,7 +6,7 @@
 
     - [long title](./7411/long.md)
   
-        - [tes](./7411/test.md)
+        - [test](./7411/test.md)
     
             - [tttt](./7411/tttt.md)
 
