@@ -98,7 +98,7 @@
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
             <!-- 看起来这个toc就是关键 -->
-                <ol class="chapter"><li class="chapter-item "><a href="pre.html">前</a></li><li class="chapter-item "><a href="7411/index.html">真实之理</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="7411/long.html">long title</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="7411/test.html">test</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="7411/tttt.html">tttt</a></li></ol></li></ol></li></ol></li><li class="chapter-item "><a href="6371/index.html">繁星之律</a></li><li class="chapter-item "><a href="1136/index.html">涧水之迹</a></li><li class="chapter-item "><a href="4785/index.html">蔓萝之叶</a></li><li class="chapter-item "><a href="9321/index.html">环星之舰</a></li><li class="chapter-item "><a href="8102/index.html">坠神之海</a></li></ol>
+                <ol class="chapter"><li class="chapter-item "><a href="0000/pre.html">前</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="0000/back.html">back</a></li></ol></li><li class="chapter-item "><a href="7411/index.html">真实之理</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="7411/long.html">long title</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="7411/test.html">test</a></li><li class="chapter-item "><a href="7411/tttt.html">tttt</a></li></ol></li></ol></li><li class="chapter-item "><a href="6371/index.html">繁星之律</a></li><li class="chapter-item "><a href="1136/index.html">涧水之迹</a></li><li class="chapter-item "><a href="4785/index.html">蔓萝之叶</a></li><li class="chapter-item "><a href="9321/index.html">环星之舰</a></li><li class="chapter-item "><a href="8102/index.html">坠神之海</a></li></ol>
             </div>
             <!-- 这里自带了目录表resize -->
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
@@ -175,8 +175,47 @@
 <p>折按在左边。如果没有显示的话，点一下左上角最左边的图标。</p>
 </blockquote>
 <br/>
-<p><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="license.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</p>
-<h3><a class="header" href="#7411" id="7411">7411</a></h3>
+<p><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="0000/license.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</p>
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"></head><body onkeypress="sw()">
+<canvas id="cav" onmousedown="re()"></canvas></body></html>
+<script>
+window.onload = function(){re();}
+var w = window.innerWidth;
+var h = window.innerHeight;
+var n = w*h/1000;
+var c = document.getElementById("cav");
+var on = true;
+var color = "rgb(11,15,30)";
+c.height = h;
+c.width = w;
+var ctx = c.getContext("2d");
+function re(){
+ctx.fillStyle=color;
+ctx.fillRect(0,0,w,h);
+ctx.fillStyle="#FFFFFF";
+ctx.strokeStyle="#FFFFFF";
+for(var i = 0; i<n; i++){
+var x = Math.random()*(w-20)+10;
+var y = Math.random()*(h-20)+10;
+var r = Math.random();
+ctx.beginPath();
+ctx.arc(x,y,r,0,2*Math.PI,true);
+ctx.fill();
+ctx.closePath();
+//ctx.fillRect(x,y,r,r);
+}}
+function sw(){
+if(on==true){
+	on=false;
+	color="rgb(113,164,250)";
+}else{
+	on=true;
+	color="rgb(11,15,30)";
+}
+	re();
+}
+</script><h3><a class="header" href="#7411" id="7411">7411</a></h3>
 <h1><a class="header" href="#真实之理---siehyle" id="真实之理---siehyle">真实之理   SIEHYLE</a></h1>
 <br/>
 <p>『siehyle』部分，用于记录各种自然科学知识。</p>
