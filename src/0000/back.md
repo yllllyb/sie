@@ -1,6 +1,5 @@
-<!DOCTYPE html>
-<html><head><meta charset="utf-8"></head><body onkeypress="sw()">
-<canvas id="cav" onmousedown="re()"></canvas></body></html>
+<body onkeypress="sw()">
+<canvas id="cav" onmousedown="re()"></canvas></body>
 <script>
 window.onload = function(){re();}
 var w = window.innerWidth;
