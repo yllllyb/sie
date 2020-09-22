@@ -408,7 +408,6 @@ ul#searchresults span.teaser em {
 .chapter li > a.toggle {
     cursor: pointer;
     display: block;
-    margin-left: -81px;
     padding: 0 10px;
     user-select: none;
     opacity: 0.68;
@@ -448,7 +447,7 @@ ul#searchresults span.teaser em {
 
 .section {
     list-style: none outside none;
-    padding-left: 4px;
+    padding-inline-start: 20px;
     line-height: 1.9em;
 }
 
