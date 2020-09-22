@@ -186,7 +186,7 @@ var h = window.innerHeight;
 var n = w*h/1000;
 var c = document.getElementById("cav");
 var on = true;
-var color = "rgb(11,15,30)";
+color="rgb(113,164,250)";
 c.height = h;
 c.width = w;
 var ctx = c.getContext("2d");
@@ -208,10 +208,10 @@ ctx.closePath();
 function sw(){
 if(on==true){
 	on=false;
-	color="rgb(113,164,250)";
+	color="rgb(11,15,30)";
 }else{
 	on=true;
-	color="rgb(11,15,30)";
+	color="rgb(113,164,250)";
 }
 	re();
 }
