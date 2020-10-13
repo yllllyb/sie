@@ -248,115 +248,145 @@ if(on==true){
 <p>有的是其他世界已经存在的，有的是由『我们』提出的。</p>
 <p>关于具体的建造和使用，还在进一步讨论之中。</p>
 <h1><a class="header" href="#4d" id="4d">4d</a></h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, target-densitydpi=device-dpi, initial-scale=1.0, user-scalable=no">
+ <meta name="apple-mobile-app-web-capable" content="yes">
+ <meta http-equiv="X-UA-Compatible" content="ie=edge">
+ <title>DRAG</title>
+</head>
 <body>
-<canvas id="cav" style="background:black">
-</canvas>
+<canvas id="cav" style="background:black"></canvas>
 </body>
 <script>
 //参数区
-var d=-300,
-	f=-4,
-	w=400,
-	h=690;
-var ol=0;
-var ot=0;
-//框架区
-function p3d(x,y,z){
-	this.x=x;
-	this.y=y;
-	this.z=z;
-	this.rotateX=function (angle){
-		var sinA=Math.sin(angle);
-		var cosA=Math.cos(angle);
-		var tz=this.z;
-		var ty=this.y;
-		this.y=ty*cosA-tz*sinA;
-		this.z=ty*sinA+tz*cosA;
-	};
-	this.rotateY=function (angle){
-		var sinA=Math.sin(angle);
-		var cosA=Math.cos(angle);
-		var tz=this.z;
-		var tx=this.x;
-		this.z=tz*cosA-tx*sinA;
-		this.x=tz*sinA+tx*cosA;
-	};
-	this.rotateXY=function (a1,a2){
-		this.rotateX(a1);
-		this.rotateY(a2);
-	};
-}
-function draw(p1,p2,con){
-	dL(
-		d*0.7*p1.y/(d+p1.z)+w/2,
-		h*0.75-(d*0.7*(p1.x+f)/(d+p1.z)),
-		d*0.7*p2.y/(d+p2.z)+w/2,
-		h*0.75-(d*0.7*(p2.x+f)/(d+p2.z)),
-		con
-	);
-	dL(
-		d*0.7*p1.y/(d+p1.z)+w/2,
-		h*0.25-(d*0.7*(p1.x-f)/(d+p1.z)),
-		d*0.7*p2.y/(d+p2.z)+w/2,
-		h*0.25-(d*0.7*(p2.x-f)/(d+p2.z)),
-		con
-	);
-}
-function dL(x1,y1,x2,y2,con){
-	con.beginPath();
-	con.moveTo(x1,y1);
-	con.lineTo(x2,y2);
-	con.closePath();
-	con.stroke();
-}
+var d=-300,f=-4,w=400,h=690,ol=0,ot=0;
 //画图区
 var cav=document.getElementById("cav");
 cav.width=w;
 cav.height=h;
 var con=cav.getContext("2d");
 con.lineWidth=0.7;
-<p>var p0=new p3d(0,0,0);
+var p0=new p3d(0,0,0);
 var p1=new p3d(100,0,0);
 var p2=new p3d(0,100,0);
 var p3=new p3d(0,0,100);
 paint();
 function paint(){
-con.fillStyle=&quot;black&quot;;
+con.fillStyle="black";
 con.fillRect(0,0,w,h);
-con.strokeStyle=&quot;#20FAAA&quot;;
+con.strokeStyle="#20FAAA";
 draw(p0,p1,con);
 draw(p0,p2,con);
 draw(p0,p3,con);
-}</p>
-<p>//转动区
-function drag(obj){
-obj.touchstart = function(event){
-event = event || window.event;
-obj.setCapture&amp;&amp;obj.setCapture();
-ol = event.touches[0].clientX;
-ot = event.touches[0].clientY;</p>
-<p>document.touchmove = function(event) {
-event = event || window.event; 
-var ax = (event.touches[0].clientX - ol)*0.1;
-var ay = (event.touches[0].clientY - ot)*0.1; 
-p1.rotateXY(ax,ay);
-p2.rotateXY(ax,ay);
-p3.rotateXY(ax,ay);
-paint();
-ol = event.touches[0].clientX;
-ot = event.touches[0].clientY;
-};</p>
-<p>document.touchend = function() {
-document.touchmove = null;
-document.toucend = null; 
-obj.releaseCapture &amp;&amp; obj.releaseCapture(); 
-};</p>
-<p>};
 }
-window.onload = function(){
-drag(cav);
+//框架区
+function p3d(x,y,z){
+this.x=x;
+this.y=y;
+this.z=z;
+this.rotateX=function (angle){
+var sinA=Math.sin(angle);
+var cosA=Math.cos(angle);
+var tz=this.z;
+var ty=this.y;
+this.y=ty*cosA-tz*sinA;
+this.z=ty*sinA+tz*cosA;
+};
+this.rotateY=function (angle){
+var sinA=Math.sin(angle);
+var cosA=Math.cos(angle);
+var tz=this.z;
+var tx=this.x;
+this.z=tz*cosA-tx*sinA;
+this.x=tz*sinA+tx*cosA;
+};
+this.rotateXY=function (a1,a2){
+this.rotateX(a1);
+this.rotateY(a2);
+};
 }
-</script></p>
+function draw(p1,p2,con){
+dL(
+d*0.7*p1.y/(d+p1.z)+w/2,
+h*0.75-(d*0.7*(p1.x+f)/(d+p1.z)),
+d*0.7*p2.y/(d+p2.z)+w/2,
+h*0.75-(d*0.7*(p2.x+f)/(d+p2.z)),
+con
+);
+dL(
+d*0.7*p1.y/(d+p1.z)+w/2,
+h*0.25-(d*0.7*(p1.x-f)/(d+p1.z)),
+d*0.7*p2.y/(d+p2.z)+w/2,
+h*0.25-(d*0.7*(p2.x-f)/(d+p2.z)),
+con
+);
+}
+function dL(x1,y1,x2,y2,con){
+con.beginPath();
+con.moveTo(x1,y1);
+con.lineTo(x2,y2);
+con.closePath();
+con.stroke();
+}
+//转动区
+(function(win, doc){
+var ua = navigator.userAgent,
+eventArr = ['touchstart', 'touchmove', 'touchend'];
+
+function Drag(opts) {
+this.opts = opts || {};
+this.opts.onStart = this.opts.onStart || function(e) {};
+this.opts.onMove = this.opts.onMove || function(e) {};
+this.opts.onMoveIn = this.opts.onMoveIn || function(e) {};
+this.opts.onEnd = this.opts.onEnd || function(e) {};
+this.init();
+}
+
+Drag.prototype = {
+$: function(e) {
+return doc.querySelectorAll(e);
+//选择器使用选择所有匹配元素
+}
+}
+
+Drag.prototype.init = function () {
+------------------------------------------
+Drag.prototype.addEvent = function(e) {
+for (var i = eventArr.length - 1; i >= 0; i--) {
+e.addEventListener(eventArr[i], this[eventArr[i]].bind(this), false);
+}}
+
+Drag.prototype.touchstart = function(e) {
+e.preventDefault();
+e.stopPropagation();
+
+ol = e.pageX || e.touches[0].pageX;
+ot = e.pageY || e.touches[0].pageY;
+}
+
+Drag.prototype.touchmove = function(e) {
+this.nowX = e.pageX || e.touches[0].pageX;
+this.nowY = e.pageY || e.touches[0].pageY;
+
+var ax = this.nowX - this.startX;
+var ay = this.nowY - this.startY;
+
+//这里添加转动
+
+ol = e.pageX || e.touches[0].pageX;
+ot = e.pageY || e.touches[0].pageY;
+}
+
+Drag.prototype.touchend = function(e) {
+
+}
+
+win.Drag = Drag;
+})(window, document);
+</script>
 <h3><a class="header" href="#1146" id="1146">1146</a></h3>
 <h1><a class="header" href="#涧水之迹---seelie" id="涧水之迹---seelie">涧水之迹   SEELIE</a></h1>
 <br/>
