@@ -85,19 +85,19 @@ function drag(obj){
 obj.touchstart = function(event){
 event = event || window.event;
 obj.setCapture&&obj.setCapture();
-ol = event.clientX;
-ot = event.clientY;
+ol = event.touches[0].clientX;
+ot = event.touches[0].clientY;
 	
 document.touchmove = function(event) {
 event = event || window.event; 
-var ax = (event.clientX - ol)*0.1;
-var ay = (event.clientY - ot)*0.1; 
+var ax = (event.touches[0].clientX - ol)*0.1;
+var ay = (event.touches[0].clientY - ot)*0.1; 
 p1.rotateXY(ax,ay);
 p2.rotateXY(ax,ay);
 p3.rotateXY(ax,ay);
 paint();
-ol = event.clientX;
-ot = event.clientY;
+ol = event.touches[0].clientX;
+ot = event.touches[0].clientY;
 };
 	
 document.touchend = function() {
