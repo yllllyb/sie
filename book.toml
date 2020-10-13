@@ -8,8 +8,6 @@ title = "sie"
 [output.html]
 no-section-label = true
 theme = "te"
-additional-js = ["add/starback.js"]
-additional-css = ["add/starback.css"]
 
 [output.html.fold]
 enable = true
