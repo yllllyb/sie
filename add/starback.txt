@@ -1,0 +1,25 @@
+window.onload = function(){re();}
+window.onresize = function(){re();}
+function re(){
+var w = window.innerWidth;
+var h = window.innerHeight;
+var n = w*h/1000;
+var c = document.getElementById("cav");
+var on = true;
+var color = "rgb(11,15,30)";
+c.height = h;
+c.width = w;
+var ctx = c.getContext("2d");
+ctx.fillStyle=color;
+ctx.fillRect(0,0,w,h);
+ctx.fillStyle="rgb(113,164,250)";
+ctx.strokeStyle="rgb(113,164,250)";
+for(var i = 0; i<n; i++){
+var x = Math.random()*(w-20)+10;
+var y = Math.random()*(h-20)+10;
+var r = Math.random()*2;
+ctx.beginPath();
+ctx.arc(x,y,r,0,2*Math.PI,true);
+ctx.fill();
+ctx.closePath();
+}}
