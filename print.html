@@ -436,15 +436,6 @@ con.stroke();
 var ua = navigator.userAgent,
 eventArr = ['touchstart', 'touchmove', 'touchend'];
 
-function Drag(opts) {
-this.opts = opts || {};
-this.opts.onStart = this.opts.onStart || function(e) {};
-this.opts.onMove = this.opts.onMove || function(e) {};
-this.opts.onMoveIn = this.opts.onMoveIn || function(e) {};
-this.opts.onEnd = this.opts.onEnd || function(e) {};
-this.init();
-}
-
 Drag.prototype = {
 $: function(e) {
 return doc.querySelectorAll(e);
@@ -486,7 +477,6 @@ Drag.prototype.touchend = function(e) {
 
 }
 
-win.Drag = Drag;
 })(window, document);
 </script>
 <h3><a class="header" href="#1146" id="1146">1146</a></h3>
