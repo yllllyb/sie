@@ -1,40 +1,55 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, target-densitydpi=device-dpi, initial-scale=1.0, user-scalable=no">
- <meta name="apple-mobile-app-web-capable" content="yes">
- <meta http-equiv="X-UA-Compatible" content="ie=edge">
- <title>4D</title>
-</head>
-
-<body>
-<canvas id="cav" style="background:black"></canvas>
-</body>
-
-
- <script>
+<body><canvas id="cav" 
+style="background:black"
+onmousedown="change()"></canvas></body>
+<script>
 //参数区
 var d=-300,f=-4,w=400,h=690,ol=0,ot=0;
-//画图区
+var rx=0.01,ry=0.007;
+var fl=1;
+//画图函数
+function paint(){
+con.fillStyle="black";
+con.fillRect(0,0,w,h);
+con.strokeStyle="red";
+draw(p0,px,con);
+con.strokeStyle="blue";
+draw(p0,py,con);
+con.strokeStyle="green";
+draw(p0,pz,con);
+con.strokeStyle="#20FAAA";
+draw(p1,p2,con);
+draw(p2,p3,con);
+draw(p3,p4,con);
+draw(p5,p6,con);
+draw(p6,p7,con);
+draw(p7,p8,con);
+draw(p4,p8,con);
+}
+//东西区
+function change(){
+if(fl==1)
+	fl=0;
+else
+	fl=1;
+}
 var cav=document.getElementById("cav");
 cav.width=w;
 cav.height=h;
 var con=cav.getContext("2d");
 con.lineWidth=0.7;
 var p0=new p3d(0,0,0);
-var p1=new p3d(100,0,0);
-var p2=new p3d(0,100,0);
-var p3=new p3d(0,0,100);
+var px=new p3d(100,0,0);
+var py=new p3d(0,100,0);
+var pz=new p3d(0,0,100);
+var p1=new p3d(80,80,80);
+var p2=new p3d(-80,80,80);
+var p3=new p3d(-80,-80,80);
+var p4=new p3d(80,-80,80);
+var p5=new p3d(80,80,-80);
+var p6=new p3d(-80,80,-80);
+var p7=new p3d(-80,-80,-80);
+var p8=new p3d(80,-80,-80);
 paint();
-function paint(){
-con.fillStyle="black";
-con.fillRect(0,0,w,h);
-con.strokeStyle="#20FAAA";
-draw(p0,p1,con);
-draw(p0,p2,con);
-draw(p0,p3,con);
-}
 //框架区
 function p3d(x,y,z){
 this.x=x;
@@ -85,56 +100,21 @@ con.closePath();
 con.stroke();
 }
 //转动区
-(function(win, doc){
-var ua = navigator.userAgent,
-eventArr = ['touchstart', 'touchmove', 'touchend'];
-
-
-function Drag(opts) {
-this.opts = opts || {};
-}
- 
-Drag.prototype = {
-$: function(e) {
-return doc.querySelectorAll(e);
-//选择器使用选择所有匹配元素
-}
-}
-
-Drag.prototype.addEvent = function(e) {
-for (var i = eventArr.length - 1; i >= 0; i--) {
-e.addEventListener(eventArr[i], this[eventArr[i]].bind(this), false);
-}}
-
-Drag.prototype.touchstart = function(e) {
-e.preventDefault();
-e.stopPropagation();
-
-ol = e.pageX || e.touches[0].pageX;
-ot = e.pageY || e.touches[0].pageY;
-}
-
-Drag.prototype.touchmove = function(e) {
-this.nowX = e.pageX || e.touches[0].pageX;
-this.nowY = e.pageY || e.touches[0].pageY;
-
-var ax = this.nowX - this.startX;
-var ay = this.nowY - this.startY;
-
-//这里添加转动
-p1.rotateXY(ax,ay);
-p2.rotateXY(ax,ay);
-p3.rotateXY(ax,ay);
+var interval = self.setInterval("rota()",10);
+function rota(){
+if(fl==0)
+	return;
+px.rotateXY(rx,ry);
+py.rotateXY(rx,ry);
+pz.rotateXY(rx,ry);
+p1.rotateXY(rx,ry);
+p2.rotateXY(rx,ry);
+p3.rotateXY(rx,ry);
+p4.rotateXY(rx,ry);
+p5.rotateXY(rx,ry);
+p6.rotateXY(rx,ry);
+p7.rotateXY(rx,ry);
+p8.rotateXY(rx,ry);
 paint();
-
-ol = e.pageX || e.touches[0].pageX;
-ot = e.pageY || e.touches[0].pageY;
 }
-
-Drag.prototype.touchend = function(e) {
-
-}
-
-win.Drag = Drag;
-})(window, document);
 </script>
