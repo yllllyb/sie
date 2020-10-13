@@ -353,7 +353,6 @@ return doc.querySelectorAll(e);
 }
 
 Drag.prototype.init = function () {
-------------------------------------------
 Drag.prototype.addEvent = function(e) {
 for (var i = eventArr.length - 1; i >= 0; i--) {
 e.addEventListener(eventArr[i], this[eventArr[i]].bind(this), false);
@@ -375,6 +374,10 @@ var ax = this.nowX - this.startX;
 var ay = this.nowY - this.startY;
 
 //这里添加转动
+p1.rotateXY(ax,ay);
+p2.rotateXY(ax,ay);
+p3.rotateXY(ax,ay);
+paint();
 
 ol = e.pageX || e.touches[0].pageX;
 ot = e.pageY || e.touches[0].pageY;
