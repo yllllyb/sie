@@ -1,10 +1,9 @@
 <body><canvas id="cav" 
-style="background:black"
-onmousedown="change()"></canvas></body>
+style="background:black"></canvas></body>
 <script>
 //参数区
 var d=-300,f=-4,w=400,h=690,ol=0,ot=0;
-var rx=0.01,ry=0.007;
+var ry=0.01,rx=0;
 var fl=1;
 //画图函数
 function paint(){
@@ -26,12 +25,6 @@ draw(p7,p8,con);
 draw(p4,p8,con);
 }
 //东西区
-function change(){
-if(fl==1)
-	fl=0;
-else
-	fl=1;
-}
 var cav=document.getElementById("cav");
 cav.width=w;
 cav.height=h;
@@ -102,8 +95,16 @@ con.stroke();
 //转动区
 var interval = self.setInterval("rota()",10);
 function rota(){
-if(fl==0)
-	return;
+if(fl==0){
+	rx+=0.0001;
+	if(rx>=0.03)
+		fl=1;
+}
+else{
+	rx-=0.0001;
+	if(rx<=-0.03)
+		fl=0;
+}
 px.rotateXY(rx,ry);
 py.rotateXY(rx,ry);
 pz.rotateXY(rx,ry);
