@@ -1,13 +1,71 @@
-<body><canvas id="cav" style="background:black"></canvas></body>
+<body>
+<canvas id="cav" style="background:black">
+</canvas>
+</body>
 <script>
 //参数区
-var d=-300,f=-4,w=400,h=690,ol=0,ot=0;
+var d=-300,
+	f=-4,
+	w=400,
+	h=690;
+var ol=0;
+var ot=0;
+//框架区
+function p3d(x,y,z){
+	this.x=x;
+	this.y=y;
+	this.z=z;
+	this.rotateX=function (angle){
+		var sinA=Math.sin(angle);
+		var cosA=Math.cos(angle);
+		var tz=this.z;
+		var ty=this.y;
+		this.y=ty*cosA-tz*sinA;
+		this.z=ty*sinA+tz*cosA;
+	};
+	this.rotateY=function (angle){
+		var sinA=Math.sin(angle);
+		var cosA=Math.cos(angle);
+		var tz=this.z;
+		var tx=this.x;
+		this.z=tz*cosA-tx*sinA;
+		this.x=tz*sinA+tx*cosA;
+	};
+	this.rotateXY=function (a1,a2){
+		this.rotateX(a1);
+		this.rotateY(a2);
+	};
+}
+function draw(p1,p2,con){
+	dL(
+		d*0.7*p1.y/(d+p1.z)+w/2,
+		h*0.75-(d*0.7*(p1.x+f)/(d+p1.z)),
+		d*0.7*p2.y/(d+p2.z)+w/2,
+		h*0.75-(d*0.7*(p2.x+f)/(d+p2.z)),
+		con
+	);
+	dL(
+		d*0.7*p1.y/(d+p1.z)+w/2,
+		h*0.25-(d*0.7*(p1.x-f)/(d+p1.z)),
+		d*0.7*p2.y/(d+p2.z)+w/2,
+		h*0.25-(d*0.7*(p2.x-f)/(d+p2.z)),
+		con
+	);
+}
+function dL(x1,y1,x2,y2,con){
+	con.beginPath();
+	con.moveTo(x1,y1);
+	con.lineTo(x2,y2);
+	con.closePath();
+	con.stroke();
+}
 //画图区
 var cav=document.getElementById("cav");
 cav.width=w;
 cav.height=h;
 var con=cav.getContext("2d");
 con.lineWidth=0.7;
+	
 var p0=new p3d(0,0,0);
 var p1=new p3d(100,0,0);
 var p2=new p3d(0,100,0);
@@ -21,64 +79,16 @@ draw(p0,p1,con);
 draw(p0,p2,con);
 draw(p0,p3,con);
 }
-//框架区
-function p3d(x,y,z){
-this.x=x;
-this.y=y;
-this.z=z;
-this.rotateX=function (angle){
-var sinA=Math.sin(angle);
-var cosA=Math.cos(angle);
-var tz=this.z;
-var ty=this.y;
-this.y=ty*cosA-tz*sinA;
-this.z=ty*sinA+tz*cosA;
-};
-this.rotateY=function (angle){
-var sinA=Math.sin(angle);
-var cosA=Math.cos(angle);
-var tz=this.z;
-var tx=this.x;
-this.z=tz*cosA-tx*sinA;
-this.x=tz*sinA+tx*cosA;
-};
-this.rotateXY=function (a1,a2){
-this.rotateX(a1);
-this.rotateY(a2);
-};
-}
-function draw(p1,p2,con){
-dL(
-d*0.7*p1.y/(d+p1.z)+w/2,
-h*0.75-(d*0.7*(p1.x+f)/(d+p1.z)),
-d*0.7*p2.y/(d+p2.z)+w/2,
-h*0.75-(d*0.7*(p2.x+f)/(d+p2.z)),
-con
-);
-dL(
-d*0.7*p1.y/(d+p1.z)+w/2,
-h*0.25-(d*0.7*(p1.x-f)/(d+p1.z)),
-d*0.7*p2.y/(d+p2.z)+w/2,
-h*0.25-(d*0.7*(p2.x-f)/(d+p2.z)),
-con
-);
-}
-function dL(x1,y1,x2,y2,con){
-con.beginPath();
-con.moveTo(x1,y1);
-con.lineTo(x2,y2);
-con.closePath();
-con.stroke();
-}
+
 //转动区
 function drag(obj){
-obj.onmousedown = function(event){
+obj.touchstart = function(event){
 event = event || window.event;
 obj.setCapture&&obj.setCapture();
 ol = event.clientX;
 ot = event.clientY;
-
-document.onmousemove = function(event) {
+	
+document.touchmove = function(event) {
 event = event || window.event; 
 var ax = (event.clientX - ol)*0.1;
 var ay = (event.clientY - ot)*0.1; 
@@ -89,11 +99,13 @@ paint();
 ol = event.clientX;
 ot = event.clientY;
 };
-document.onmouseup = function() {
-document.onmousemove = null;
-document.onmouseup = null; 
+	
+document.touchend = function() {
+document.touchmove = null;
+document.toucend = null; 
 obj.releaseCapture && obj.releaseCapture(); 
 };
+
 };
 }
 window.onload = function(){
