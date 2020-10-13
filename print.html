@@ -436,6 +436,11 @@ con.stroke();
 var ua = navigator.userAgent,
 eventArr = ['touchstart', 'touchmove', 'touchend'];
 
+
+function Drag(opts) {
+this.opts = opts || {};
+}
+ 
 Drag.prototype = {
 $: function(e) {
 return doc.querySelectorAll(e);
@@ -477,6 +482,7 @@ Drag.prototype.touchend = function(e) {
 
 }
 
+win.Drag = Drag;
 })(window, document);
 </script>
 <h3><a class="header" href="#1146" id="1146">1146</a></h3>
