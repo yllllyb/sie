@@ -55,7 +55,6 @@ h3 a.header:target::before,
 h4 a.header:target::before {
     display: inline-block;
     content: "»";
-    content: "->";
     margin-left: -30px;
     width: 30px;
 }
