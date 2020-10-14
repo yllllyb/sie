@@ -349,11 +349,17 @@ drag(cav);
 }
 </script>
 <body><canvas id="cav" 
-style="background:black"></canvas></body>
+style="background:black"
+onmousedown="change()"></canvas></body>
 <script>
 //参数区
-var d=-300,f=-4,w=400,h=690,ol=0,ot=0;
-var ry=0.01,rx=0;
+var d=-300,f=-4,
+	h=window.innerHeight,//690
+	w=h/69*40,//400
+	ol=0,ot=0,
+	a=w*0.4,
+	b=a*0.7;
+var ry=0.01,rx=0.007;
 var fl=1;
 //画图函数
 function paint(){
@@ -375,23 +381,26 @@ draw(p7,p8,con);
 draw(p4,p8,con);
 }
 //东西区
+function change(){
+fl*=-1;
+}
 var cav=document.getElementById("cav");
 cav.width=w;
 cav.height=h;
 var con=cav.getContext("2d");
 con.lineWidth=0.7;
 var p0=new p3d(0,0,0);
-var px=new p3d(100,0,0);
-var py=new p3d(0,100,0);
-var pz=new p3d(0,0,100);
-var p1=new p3d(80,80,80);
-var p2=new p3d(-80,80,80);
-var p3=new p3d(-80,-80,80);
-var p4=new p3d(80,-80,80);
-var p5=new p3d(80,80,-80);
-var p6=new p3d(-80,80,-80);
-var p7=new p3d(-80,-80,-80);
-var p8=new p3d(80,-80,-80);
+var px=new p3d(a,0,0);
+var py=new p3d(0,a,0);
+var pz=new p3d(0,0,a);
+var p1=new p3d(b,b,b);
+var p2=new p3d(-b,b,b);
+var p3=new p3d(-b,-b,b);
+var p4=new p3d(b,-b,b);
+var p5=new p3d(b,b,-b);
+var p6=new p3d(-b,b,-b);
+var p7=new p3d(-b,-b,-b);
+var p8=new p3d(b,-b,-b);
 paint();
 //框架区
 function p3d(x,y,z){
@@ -445,16 +454,11 @@ con.stroke();
 //转动区
 var interval = self.setInterval("rota()",10);
 function rota(){
-if(fl==0){
-	rx+=0.0001;
-	if(rx>=0.03)
-		fl=1;
-}
-else{
-	rx-=0.0001;
-	if(rx<=-0.03)
-		fl=0;
-}
+if(fl==-1)
+	return;
+var t=new Date().getSeconds();
+rx=Math.cos(t*Math.PI/12)*0.02;
+ry=Math.sin(t*Math.PI/12)*0.02;
 px.rotateXY(rx,ry);
 py.rotateXY(rx,ry);
 pz.rotateXY(rx,ry);
