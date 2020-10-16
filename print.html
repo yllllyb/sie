@@ -355,23 +355,33 @@ drag(cav);
 <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 </head> 
 <body>
-<canvas id="cav" style="background:black">
-</canvas></body>
-<script>      
+<canvas id="cav" style="background:black"></canvas>
+<script>   
 //参数区
+var pc=isPC();
+var d3=1;
 var 
 w=window.innerWidth,
-h=window.innerHeight;
-if(h/2000<w/1000){
-w=h*1000/2000;
+h=window.innerHeight,
+d,f,r,std;
+if(pc){
+if(h<w/2){
+h*=0.98;
+w=h*2;
 }else{
-h=w*2000/1000;
+w*=0.98;
+h=w/2;}
+d=h;f=h/30;r=h*0.0001,std=h;
+}else{
+if(h/2<w){
+h*=0.98;
+w=h/2;
+}else{
+h=w*2;
+w*=0.98;}
+d=w;f=w/30;r=w*0.0001,std=w;
 }
-var 
-d=w,
-f=w/30,
-r=w*0.0001;
-ol=0,ot=0;
+var ol=0,ot=0;
 var cav=document.getElementById("cav");
 cav.width=w;
 cav.height=h;
@@ -379,7 +389,7 @@ var con=cav.getContext("2d");
 con.lineWidth=0.4;
 //点坐标
 var axis=new Array(),p=new Array();
-var a=h*0.25,b=h*0.2;
+var a=std*0.5,b=std*0.4;
 axis[0]=new p3d(a,0,0);
 axis[1]=new p3d(-a,0,0);
 axis[2]=new p3d(0,a,0);
@@ -439,20 +449,24 @@ this.x=tz*sinA+tx*cosA;
 };
 }
 function draw(p1,p2,con){
-dL(
-d*0.7*p1.y/(d+p1.z)+w/2,
+if(pc){
+dL(d*0.7*(p1.x+f)/(d+p1.z)+w*0.25,
+h/2-(d*0.7*p1.y/(d+p1.z)),
+d*0.7*(p2.x+f)/(d+p2.z)+w*0.25,
+h/2-(d*0.7*p2.y/(d+p2.z)),con);
+dL(d*0.7*(p1.x-f)/(d+p1.z)+w*0.75,
+h/2-(d*0.7*p1.y/(d+p1.z)),
+d*0.7*(p2.x-f)/(d+p2.z)+w*0.75,
+h/2-(d*0.7*p2.y/(d+p2.z)),con);
+}else{
+dL(d*0.7*p1.y/(d+p1.z)+w/2,
 h*0.75-(d*0.7*(p1.x+f)/(d+p1.z)),
 d*0.7*p2.y/(d+p2.z)+w/2,
-h*0.75-(d*0.7*(p2.x+f)/(d+p2.z)),
-con
-);
-dL(
-d*0.7*p1.y/(d+p1.z)+w/2,
+h*0.75-(d*0.7*(p2.x+f)/(d+p2.z)),con);
+dL(d*0.7*p1.y/(d+p1.z)+w/2,
 h*0.25-(d*0.7*(p1.x-f)/(d+p1.z)),
 d*0.7*p2.y/(d+p2.z)+w/2,
-h*0.25-(d*0.7*(p2.x-f)/(d+p2.z)),
-con
-);
+h*0.25-(d*0.7*(p2.x-f)/(d+p2.z)),con);
 }
 function dL(x1,y1,x2,y2,con){
 con.beginPath();
@@ -492,6 +506,15 @@ ay = (e.clientY - ot)*r;
 ax = (e.touches[0].pageX - ol)*r;
 ay = (e.touches[0].pageY - ot)*r;
 }
+if(pc){
+for(let k in axis){
+axis[k].rotateY(-ax);
+axis[k].rotateX(-ay);
+}
+for(let k in p){
+p[k].rotateY(-ax);
+p[k].rotateX(-ay);
+}}else{
 for(let k in axis){
 axis[k].rotateX(ax);
 axis[k].rotateY(ay);
@@ -499,7 +522,7 @@ axis[k].rotateY(ay);
 for(let k in p){
 p[k].rotateX(ax);
 p[k].rotateY(ay);
-}
+}}
 paint();
 
 if(!e.touches){
@@ -522,7 +545,16 @@ window.addEventListener("mousemove", move);
 window.addEventListener("touchend", end);
 window.addEventListener("mouseup", end);
 }
+}
+//判断浏览器函数
+function isPC(){
+if(window.navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)) {
+return false;
+}else{
+return true;
+}}
 </script>
+</body>
 </html><h3><a class="header" href="#1146" id="1146">1146</a></h3>
 <h1><a class="header" href="#涧水之迹---seelie" id="涧水之迹---seelie">涧水之迹   SEELIE</a></h1>
 <br/>
