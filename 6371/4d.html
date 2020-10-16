@@ -1,67 +1,149 @@
-<body><canvas id="cav" style="background:black"></canvas></body>
-<script>
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+<style>
+#bt{
+-webkit-writing-mode: horizontal-tb !important;
+color: white;
+background-color: black;
+font: 400 13.3333px Arial;
+padding:0;
+border-width:0;
+}
+</style>
+</head> 
+<body>
+<canvas id="cav" style="background:black"></canvas>
+<button id="bt" onclick="obt()">3d</button></body>
+	
+<script>   
 //参数区
-var d=-300,f=-4,w=400,h=690,ol=0,ot=0;
-//画图区
+var pc=isPC();
+var d3=1;
+var 
+w=window.innerWidth,
+h=window.innerHeight,
+d,f,r,std;
+var bt=document.getElementById("bt");
+bt.style.position="absolute";
+if(pc){
+if(h<w/2){
+h*=0.98;
+w=h*2;
+}else{
+w*=0.98;
+h=w/2;}
+bt.style.left=w-8+"px";bt.style.top=8+"px";
+d=h;f=h/30;r=h*0.0001,std=h;
+}else{
+if(h/2<w){
+h*=0.98;
+w=h/2;
+}else{
+h=w*2;
+w*=0.98;}
+bt.style.left=w-8+"px";bt.style.top=h-8+"px";
+bt.style.transform="rotate(90deg)";
+d=w;f=w/30;r=w*0.0001,std=w;
+}
+var ol=0,ot=0;
 var cav=document.getElementById("cav");
 cav.width=w;
 cav.height=h;
 var con=cav.getContext("2d");
-con.lineWidth=0.7;
-var p0=new p3d(0,0,0);
-var p1=new p3d(100,0,0);
-var p2=new p3d(0,100,0);
-var p3=new p3d(0,0,100);
+con.lineWidth=0.4;
+//点坐标
+var axis=new Array(),p=new Array();
+var a=std*0.5,b=std*0.4;
+axis[0]=new p4d(a,0,0,0);
+axis[1]=new p4d(-a,0,0,0);
+axis[2]=new p4d(0,a,0,0);
+axis[3]=new p4d(0,-a,0,0);
+axis[4]=new p4d(0,0,a,0);
+axis[5]=new p4d(0,0,-a,0);
+axis[6]=new p4d(0,0,0,a);
+axis[7]=new p4d(0,0,0,-a);
+for(let i=0;i<16;i++){
+p[i]=new p4d((i&1)*b-b/2,(i&2)*b/2-b/2,(i&4)*b/4-b/2,(i&8)*b/8-b/2);
+}
 paint();
+
+//画图区
 function paint(){
 con.fillStyle="black";
 con.fillRect(0,0,w,h);
-con.strokeStyle="#20FAAA";
-draw(p0,p1,con);
-draw(p0,p2,con);
-draw(p0,p3,con);
+con.strokeStyle="#40AAFF";
+draw(p[0],p[1],con);
+draw(p[0],p[2],con);
+draw(p[1],p[3],con);
+draw(p[2],p[3],con);
+draw(p[4],p[5],con);
+draw(p[4],p[6],con);
+draw(p[5],p[7],con);
+draw(p[6],p[7],con);
+draw(p[0],p[4],con);
+draw(p[1],p[5],con);
+draw(p[2],p[6],con);
+draw(p[3],p[7],con);
+con.strokeStyle="red";
+draw(axis[0],axis[1],con);
+con.strokeStyle="green";
+draw(axis[2],axis[3],con);
+con.strokeStyle="blue";
+draw(axis[4],axis[5],con);
 }
+
 //框架区
-function p3d(x,y,z){
-this.x=x;
-this.y=y;
-this.z=z;
-this.rotateX=function (angle){
-var sinA=Math.sin(angle);
-var cosA=Math.cos(angle);
-var tz=this.z;
-var ty=this.y;
-this.y=ty*cosA-tz*sinA;
-this.z=ty*sinA+tz*cosA;
-};
-this.rotateY=function (angle){
-var sinA=Math.sin(angle);
-var cosA=Math.cos(angle);
-var tz=this.z;
-var tx=this.x;
-this.z=tz*cosA-tx*sinA;
-this.x=tz*sinA+tx*cosA;
-};
-this.rotateXY=function (a1,a2){
-this.rotateX(a1);
-this.rotateY(a2);
-};
+function p4d(x,y,w,z){
+this.x=x;this.y=y;this.w=w;this.z=z;
+
+this.rotateXW=function (angle){
+var sinA=Math.sin(angle);var cosA=Math.cos(angle);
+var tx=this.x;var tw=this.w;
+this.x=tw*cosA-tx*sinA;this.w=tw*sinA+tx*cosA;};
+
+this.rotateYW=function (angle){
+var sinA=Math.sin(angle);var cosA=Math.cos(angle);
+var ty=this.y;var tw=this.w;
+this.y=ty*cosA-tw*sinA;this.w=ty*sinA+tw*cosA;};
+
+this.rotateXZ=function (angle){
+var sinA=Math.sin(angle);var cosA=Math.cos(angle);
+var tx=this.x;var tz=this.z;
+this.z=tz*cosA-tx*sinA;this.x=tz*sinA+tx*cosA;};
+
+this.rotateYZ=function (angle){
+var sinA=Math.sin(angle);var cosA=Math.cos(angle);
+var ty=this.y;var tz=this.z;
+this.y=ty*cosA-tz*sinA;this.z=ty*sinA+tz*cosA;};
+}
+function drawL(p1,p2,con){
+draw(
+	{x1:d*p1.x/(p1.z+d),y1:d*p1.y/(p1.z+d),z1:d*p1.w/(p1.z+d)},
+	{x2:d*p2.x/(p2.z+d),y2:d*p2.y/(p2.z+d),z2:d*p2.w/(p2.z+d)},
+	con);
 }
 function draw(p1,p2,con){
-dL(
-d*0.7*p1.y/(d+p1.z)+w/2,
+if(pc){
+dL(d*0.7*(p1.x+f)/(d+p1.z)+w*0.25,
+h/2-(d*0.7*p1.y/(d+p1.z)),
+d*0.7*(p2.x+f)/(d+p2.z)+w*0.25,
+h/2-(d*0.7*p2.y/(d+p2.z)),con);
+dL(d*0.7*(p1.x-f)/(d+p1.z)+w*0.75,
+h/2-(d*0.7*p1.y/(d+p1.z)),
+d*0.7*(p2.x-f)/(d+p2.z)+w*0.75,
+h/2-(d*0.7*p2.y/(d+p2.z)),con);
+}else{
+dL(d*0.7*p1.y/(d+p1.z)+w/2,
 h*0.75-(d*0.7*(p1.x+f)/(d+p1.z)),
 d*0.7*p2.y/(d+p2.z)+w/2,
-h*0.75-(d*0.7*(p2.x+f)/(d+p2.z)),
-con
-);
-dL(
-d*0.7*p1.y/(d+p1.z)+w/2,
+h*0.75-(d*0.7*(p2.x+f)/(d+p2.z)),con);
+dL(d*0.7*p1.y/(d+p1.z)+w/2,
 h*0.25-(d*0.7*(p1.x-f)/(d+p1.z)),
 d*0.7*p2.y/(d+p2.z)+w/2,
-h*0.25-(d*0.7*(p2.x-f)/(d+p2.z)),
-con
-);
+h*0.25-(d*0.7*(p2.x-f)/(d+p2.z)),con);
 }
 function dL(x1,y1,x2,y2,con){
 con.beginPath();
@@ -70,32 +152,101 @@ con.lineTo(x2,y2);
 con.closePath();
 con.stroke();
 }
+
 //转动区
-function drag(obj){
-obj.onmousedown = function(event){
-event = event || window.event;
-obj.setCapture&&obj.setCapture();
-ol = event.clientX;
-ot = event.clientY;
-document.onmousemove = function(event) {
-event = event || window.event; 
-var ax = (event.clientX - ol)*0.1;
-var ay = (event.clientY - ot)*0.1; 
-p1.rotateXY(ax,ay);
-p2.rotateXY(ax,ay);
-p3.rotateXY(ax,ay);
-paint();
-ol = event.clientX;
-ot = event.clientY;
-};
-document.onmouseup = function() {
-document.onmousemove = null;
-document.onmouseup = null; 
-obj.releaseCapture && obj.releaseCapture(); 
-};
-};
-}
 window.onload = function(){
-drag(cav);
+var flag=false;//是否按下
+
+var start=function(e){
+e.stopPropagation();
+e.preventDefault();
+
+if(!e.touches){
+ol=e.clientX;
+ot=e.clientY;
+}else{
+ol=e.touches[0].pageX;
+ot=e.touches[0].pageY;
 }
+flag = true;
+}
+
+var move=function(e){
+if(!flag)return;
+
+var ax,ay;
+
+if(!e.touches){
+ax = (e.clientX - ol)*r;
+ay = (e.clientY - ot)*r; 
+}else{
+ax = (e.touches[0].pageX - ol)*r;
+ay = (e.touches[0].pageY - ot)*r;
+}
+if(d3==1){
+if(pc){
+for(let k in axis){
+axis[k].rotateYW(-ax);
+axis[k].rotateXW(-ay);}
+for(let k in p){
+p[k].rotateYW(-ax);
+p[k].rotateXW(-ay);
+}}else{
+for(let k in axis){
+axis[k].rotateXW(ax);
+axis[k].rotateYW(ay);}
+for(let k in p){
+p[k].rotateXW(ax);
+p[k].rotateYW(ay);
+}}}else{
+if(pc){
+for(let k in axis){
+axis[k].rotateYZ(-ax);
+axis[k].rotateXZ(-ay);}
+for(let k in p){
+p[k].rotateYZ(-ax);
+p[k].rotateXZ(-ay);
+}}else{
+for(let k in axis){
+axis[k].rotateXZ(ax);
+axis[k].rotateYZ(ay);}
+for(let k in p){
+p[k].rotateXZ(ax);
+p[k].rotateYZ(ay);
+}}}
+	
+paint();
+
+if(!e.touches){
+ol = e.clientX;
+ot = e.clientY;}else{
+ol=e.touches[0].pageX;
+ot=e.touches[0].pageY;}}
+
+var end=function(e){flag=false;}
+
+cav.addEventListener("touchstart", start);
+cav.addEventListener("mousedown", start);
+window.addEventListener("touchmove", move);
+window.addEventListener("mousemove", move);
+window.addEventListener("touchend", end);
+window.addEventListener("mouseup", end);}}
+	
+//判断浏览器函数
+function isPC(){
+if(window.navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)) {
+return false;
+}else{
+return true;
+}}
+function obt(){
+if(d3==1){
+bt.innerHTML="4d";
+d3=0;
+}else{
+bt.innerHTML="3d";
+d3=1;
+}}
 </script>
+ 
+</html>
