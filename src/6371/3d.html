@@ -1,57 +1,72 @@
-<body style="background:black"><canvas id="cav" 
-style="background:black"
-onmousedown="change()"></canvas></body>
-<script>
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+</head> 
+<body>
+<canvas id="cav" style="background:black">
+</canvas></body>
+	
+<script>      
 //参数区
-var h=window.innerHeight,//690
-	w=h/69*40,//400
-	d=-1*h/2,f=-1*w/100,
-	ol=0,ot=0,
-	a=w*0.4,
-	b=a*0.7;
-var ry=0.01,rx=0.007;
-var fl=1;
-//画图函数
-function paint(){
-con.fillStyle="black";
-con.fillRect(0,0,w,h);
-con.strokeStyle="red";
-draw(p0,px,con);
-con.strokeStyle="blue";
-draw(p0,py,con);
-con.strokeStyle="green";
-draw(p0,pz,con);
-con.strokeStyle="#20FAAA";
-draw(p1,p2,con);
-draw(p2,p3,con);
-draw(p3,p4,con);
-draw(p5,p6,con);
-draw(p6,p7,con);
-draw(p7,p8,con);
-draw(p4,p8,con);
+var 
+w=window.innerWidth,
+h=window.innerHeight;
+if(h/2000<w/1000){
+w=h*1000/2000;
+}else{
+h=w*2000/1000;
 }
-//东西区
-function change(){
-fl*=-1;
-}
+var 
+d=w,
+f=w/30,
+r=w*0.0001;
+ol=0,ot=0;
 var cav=document.getElementById("cav");
 cav.width=w;
 cav.height=h;
 var con=cav.getContext("2d");
-con.lineWidth=0.7;
-var p0=new p3d(0,0,0);
-var px=new p3d(a,0,0);
-var py=new p3d(0,a,0);
-var pz=new p3d(0,0,a);
-var p1=new p3d(b,b,b);
-var p2=new p3d(-b,b,b);
-var p3=new p3d(-b,-b,b);
-var p4=new p3d(b,-b,b);
-var p5=new p3d(b,b,-b);
-var p6=new p3d(-b,b,-b);
-var p7=new p3d(-b,-b,-b);
-var p8=new p3d(b,-b,-b);
+con.lineWidth=0.4;
+//点坐标
+var axis=new Array(),p=new Array();
+var a=h*0.25,b=h*0.2;
+axis[0]=new p3d(a,0,0);
+axis[1]=new p3d(-a,0,0);
+axis[2]=new p3d(0,a,0);
+axis[3]=new p3d(0,-a,0);
+axis[4]=new p3d(0,0,a);
+axis[5]=new p3d(0,0,-a);
+for(let i=0;i<8;i++){
+p[i]=new p3d((i&1)*b-b/2,(i&2)*b/2-b/2,(i&4)*b/4-b/2);
+}
 paint();
+
+//画图区
+function paint(){
+con.fillStyle="black";
+con.fillRect(0,0,w,h);
+con.strokeStyle="#40AAFF";
+draw(p[0],p[1],con);
+draw(p[0],p[2],con);
+draw(p[1],p[3],con);
+draw(p[2],p[3],con);
+draw(p[4],p[5],con);
+draw(p[4],p[6],con);
+draw(p[5],p[7],con);
+draw(p[6],p[7],con);
+draw(p[0],p[4],con);
+draw(p[1],p[5],con);
+draw(p[2],p[6],con);
+draw(p[3],p[7],con);
+con.strokeStyle="red";
+draw(axis[0],axis[1],con);
+con.strokeStyle="green";
+draw(axis[2],axis[3],con);
+con.strokeStyle="blue";
+draw(axis[4],axis[5],con);
+}
+
 //框架区
 function p3d(x,y,z){
 this.x=x;
@@ -72,10 +87,6 @@ var tz=this.z;
 var tx=this.x;
 this.z=tz*cosA-tx*sinA;
 this.x=tz*sinA+tx*cosA;
-};
-this.rotateXY=function (a1,a2){
-this.rotateX(a1);
-this.rotateY(a2);
 };
 }
 function draw(p1,p2,con){
@@ -101,25 +112,67 @@ con.lineTo(x2,y2);
 con.closePath();
 con.stroke();
 }
+
 //转动区
-var interval = self.setInterval("rota()",10);
-function rota(){
-if(fl==-1)
-	return;
-var t=new Date().getSeconds();
-rx=Math.cos(t*Math.PI/12)*0.02;
-ry=Math.sin(t*Math.PI/12)*0.02;
-px.rotateXY(rx,ry);
-py.rotateXY(rx,ry);
-pz.rotateXY(rx,ry);
-p1.rotateXY(rx,ry);
-p2.rotateXY(rx,ry);
-p3.rotateXY(rx,ry);
-p4.rotateXY(rx,ry);
-p5.rotateXY(rx,ry);
-p6.rotateXY(rx,ry);
-p7.rotateXY(rx,ry);
-p8.rotateXY(rx,ry);
+window.onload = function(){
+var flag=false;//是否按下
+
+var start=function(e){
+e.stopPropagation();
+e.preventDefault();
+
+if(!e.touches){
+ol=e.clientX;
+ot=e.clientY;
+}else{
+ol=e.touches[0].pageX;
+ot=e.touches[0].pageY;
+}
+flag = true;
+}
+
+var move=function(e){
+if(!flag)return;
+
+var ax,ay;
+
+if(!e.touches){
+ax = (e.clientX - ol)*r;
+ay = (e.clientY - ot)*r; 
+}else{
+ax = (e.touches[0].pageX - ol)*r;
+ay = (e.touches[0].pageY - ot)*r;
+}
+for(let k in axis){
+axis[k].rotateX(ax);
+axis[k].rotateY(ay);
+}
+for(let k in p){
+p[k].rotateX(ax);
+p[k].rotateY(ay);
+}
 paint();
+
+if(!e.touches){
+ol = e.clientX;
+ot = e.clientY;
+}else{
+ol=e.touches[0].pageX;
+ot=e.touches[0].pageY;
+}
+}
+
+var end=function(e){
+flag=false;
+}
+
+cav.addEventListener("touchstart", start);
+cav.addEventListener("mousedown", start);
+window.addEventListener("touchmove", move);
+window.addEventListener("mousemove", move);
+window.addEventListener("touchend", end);
+window.addEventListener("mouseup", end);
 }
 </script>
+ 
+</html>
