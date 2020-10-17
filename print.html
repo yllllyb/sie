@@ -259,8 +259,7 @@ color: white;
 background-color: black;
 font: 400 13.3333px Arial;
 padding:0;
-border-width:0;
-}
+border-width:0;}
 </style>
 </head> 
 <body>
@@ -278,30 +277,21 @@ var bt=document.getElementById("bt");
 bt.style.position="absolute";
 if(pc){
 if(h<w/2){
-h*=0.98;
-w=h*2;
-}else{
-w*=0.98;
-h=w/2;}
+h*=0.98;w=h*2;}else{w*=0.98;h=w/2;}
 bt.style.left=w-8+"px";bt.style.top=8+"px";
-d=h;f=h/30;r=h*0.0001,std=h;
+std=h;
 }else{
-if(h/2<w){
-h*=0.98;
-w=h/2;
-}else{
-h=w*2;
-w*=0.98;}
+if(h/2<w){h*=0.98;w=h/2;}else{h=w*2;w*=0.98;}
 bt.style.left=w-8+"px";bt.style.top=h-8+"px";
 bt.style.transform="rotate(90deg)";
-d=w;f=w/30;r=w*0.0001,std=w;
-}
+std=w;}
+d=std;f=std/30;r=std*0.0001;
 var ol=0,ot=0;
 var cav=document.getElementById("cav");
 cav.width=w;
 cav.height=h;
 var con=cav.getContext("2d");
-con.lineWidth=0.4;
+con.lineWidth=0.6;
 //点坐标
 var axis=new Array(),p=new Array();
 var a=std*0.5,b=std*0.4;
@@ -322,7 +312,7 @@ paint();
 function paint(){
 con.fillStyle="black";
 con.fillRect(0,0,w,h);
-con.strokeStyle="#40AAFF";
+con.strokeStyle="#A6A6A6";
 draw(p[0],p[1],con);
 draw(p[0],p[2],con);
 draw(p[1],p[3],con);
@@ -335,12 +325,36 @@ draw(p[0],p[4],con);
 draw(p[1],p[5],con);
 draw(p[2],p[6],con);
 draw(p[3],p[7],con);
-con.strokeStyle="red";
+con.strokeStyle="#40AAFF";
+draw(p[8],p[9],con);
+draw(p[8],p[10],con);
+draw(p[9],p[11],con);
+draw(p[10],p[11],con);
+draw(p[12],p[13],con);
+draw(p[12],p[14],con);
+draw(p[13],p[15],con);
+draw(p[14],p[15],con);
+draw(p[8],p[12],con);
+draw(p[9],p[13],con);
+draw(p[10],p[14],con);
+draw(p[11],p[15],con);
+con.strokeStyle="#821EE6";
+draw(p[0],p[8],con);
+draw(p[1],p[9],con);
+draw(p[2],p[10],con);
+draw(p[3],p[11],con);
+draw(p[4],p[12],con);
+draw(p[5],p[13],con);
+draw(p[6],p[14],con);
+draw(p[7],p[15],con);
+con.strokeStyle="#1846A0";
 draw(axis[0],axis[1],con);
-con.strokeStyle="green";
+con.strokeStyle="#00C564";
 draw(axis[2],axis[3],con);
-con.strokeStyle="blue";
+con.strokeStyle="#E6C800";
 draw(axis[4],axis[5],con);
+con.strokeStyle="#EE0000";
+draw(axis[6],axis[7],con);
 }
 
 //框架区
@@ -367,13 +381,13 @@ var sinA=Math.sin(angle);var cosA=Math.cos(angle);
 var ty=this.y;var tz=this.z;
 this.y=ty*cosA-tz*sinA;this.z=ty*sinA+tz*cosA;};
 }
-function drawL(p1,p2,con){
-draw(
-	{x1:d*p1.x/(p1.z+d),y1:d*p1.y/(p1.z+d),z1:d*p1.w/(p1.z+d)},
-	{x2:d*p2.x/(p2.z+d),y2:d*p2.y/(p2.z+d),z2:d*p2.w/(p2.z+d)},
+function draw(p1,p2,con){
+drawL(
+	{x:d*p1.x/(p1.z+d),y:d*p1.y/(p1.z+d),z:d*p1.w/(p1.z+d)},
+	{x:d*p2.x/(p2.z+d),y:d*p2.y/(p2.z+d),z:d*p2.w/(p2.z+d)},
 	con);
 }
-function draw(p1,p2,con){
+function drawL(p1,p2,con){
 if(pc){
 dL(d*0.7*(p1.x+f)/(d+p1.z)+w*0.25,
 h/2-(d*0.7*p1.y/(d+p1.z)),
@@ -535,7 +549,7 @@ var cav=document.getElementById("cav");
 cav.width=w;
 cav.height=h;
 var con=cav.getContext("2d");
-con.lineWidth=0.4;
+con.lineWidth=0.6;
 //点坐标
 var axis=new Array(),p=new Array();
 var a=std*0.5,b=std*0.4;
