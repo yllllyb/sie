@@ -99,7 +99,7 @@
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
             <!-- 看起来这个toc就是关键 -->
-                <ol class="chapter"><li class="chapter-item "><a href="0000/pre.html">前</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="0000/back.html">back</a></li></ol></li><li class="chapter-item "><a href="7411/index.html">真实之理</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="7411/long.html">long title</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="7411/test.html">test</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="7411/tttt.html">tttt</a></li></ol></li></ol></li></ol></li><li class="chapter-item "><a href="6371/index.html">繁星之律</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="6371/4d.html">4d</a></li><li class="chapter-item "><a href="6371/3d.html">3d</a></li></ol></li><li class="chapter-item "><a href="1136/index.html">涧水之迹</a></li><li class="chapter-item "><a href="4785/index.html">蔓萝之叶</a></li><li class="chapter-item "><a href="9321/index.html">环星之舰</a></li><li class="chapter-item "><a href="8102/index.html">坠神之海</a></li></ol>
+                <ol class="chapter"><li class="chapter-item "><a href="0000/pre.html">前</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="0000/back.html">back</a></li></ol></li><li class="chapter-item "><a href="7411/index.html">真实之理</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="7411/long.html">long title</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="7411/test.html">test</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="7411/tttt.html">tttt</a></li></ol></li></ol></li></ol></li><li class="chapter-item "><a href="6371/index.html">繁星之律</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="6371/4d.html">4d</a></li><li class="chapter-item "><a href="6371/3d.html">3d</a></li><li class="chapter-item "><a href="6371/tt.html">nodes</a></li></ol></li><li class="chapter-item "><a href="1136/index.html">涧水之迹</a></li><li class="chapter-item "><a href="4785/index.html">蔓萝之叶</a></li><li class="chapter-item "><a href="9321/index.html">环星之舰</a></li><li class="chapter-item "><a href="8102/index.html">坠神之海</a></li></ol>
             </div>
             <!-- 这里自带了目录表resize -->
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
@@ -257,15 +257,27 @@ if(on==true){
 -webkit-writing-mode: horizontal-tb !important;
 color: white;
 background-color: black;
-font: 400 13.3333px Arial;
+font: 400 20px Arial;
 padding:0;
 border-width:0;}
 </style>
 </head> 
-<body>
+<body style="margin: 0 0 0 0">
 <canvas id="cav" style="background:black"></canvas>
 <button id="bt" onclick="obt()">3d</button></body>
 <script>   
+
+window.onresize=function(){
+w=window.innerWidth;
+h=window.innerHeight;
+cav.width=w;
+cav.height=h;
+con.lineWidth=0.6;
+init1();
+init2();
+paint();
+};
+
 //参数区
 var pc=isPC();
 var d3=1;
@@ -275,17 +287,19 @@ h=window.innerHeight,
 d,f,r,std;
 var bt=document.getElementById("bt");
 bt.style.position="absolute";
+function init1(){
 if(pc){
-if(h<w/2){
-h*=0.98;w=h*2;}else{w*=0.98;h=w/2;}
-bt.style.left=w-8+"px";bt.style.top=8+"px";
+if(h<w/2){h*=0.98;w=h*2;}else{w*=0.98;h=w/2;}
+bt.style.left=w-30+"px";bt.style.top=8+"px";
 std=h;
 }else{
 if(h/2<w){h*=0.98;w=h/2;}else{h=w*2;w*=0.98;}
 bt.style.left=w-8+"px";bt.style.top=h-8+"px";
 bt.style.transform="rotate(90deg)";
 std=w;}
-d=std;f=std/30;r=std*0.0001;
+d=std;f=std/30;r=std*0.00002;
+}
+init1();
 var ol=0,ot=0;
 var cav=document.getElementById("cav");
 cav.width=w;
@@ -294,6 +308,7 @@ var con=cav.getContext("2d");
 con.lineWidth=0.6;
 //点坐标
 var axis=new Array(),p=new Array();
+function init2(){
 var a=std*0.5,b=std*0.4;
 axis[0]=new p4d(a,0,0,0);
 axis[1]=new p4d(-a,0,0,0);
@@ -305,7 +320,8 @@ axis[6]=new p4d(0,0,0,a);
 axis[7]=new p4d(0,0,0,-a);
 for(let i=0;i<16;i++){
 p[i]=new p4d((i&1)*b-b/2,(i&2)*b/2-b/2,(i&4)*b/4-b/2,(i&8)*b/8-b/2);
-}
+}}
+init2();
 paint();
 
 //画图区
@@ -517,9 +533,22 @@ d3=1;
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 </head> 
-<body>
+<body style="margin: 0 0 0 0">
 <canvas id="cav" style="background:black"></canvas>
 <script>   
+
+window.onresize=function(){
+w=window.innerWidth;
+h=window.innerHeight;
+cav.width=w;
+cav.height=h;
+con.lineWidth=0.6;
+init1();
+init2();
+paint();
+};
+
+
 //参数区
 var pc=isPC();
 var d3=1;
@@ -527,23 +556,16 @@ var
 w=window.innerWidth,
 h=window.innerHeight,
 d,f,r,std;
+function init1(){
 if(pc){
-if(h<w/2){
-h*=0.98;
-w=h*2;
+if(h<w/2){h*=0.98;w=h*2;}else{w*=0.98;h=w/2;}
+std=h;
 }else{
-w*=0.98;
-h=w/2;}
-d=h;f=h/30;r=h*0.0001,std=h;
-}else{
-if(h/2<w){
-h*=0.98;
-w=h/2;
-}else{
-h=w*2;
-w*=0.98;}
-d=w;f=w/30;r=w*0.0001,std=w;
+if(h/2<w){h*=0.98;w=h/2;}else{h=w*2;w*=0.98;}
+std=w;}
+d=std;f=std/30;r=std*0.00002;
 }
+init1();
 var ol=0,ot=0;
 var cav=document.getElementById("cav");
 cav.width=w;
@@ -552,6 +574,7 @@ var con=cav.getContext("2d");
 con.lineWidth=0.6;
 //点坐标
 var axis=new Array(),p=new Array();
+function init2(){
 var a=std*0.5,b=std*0.4;
 axis[0]=new p3d(a,0,0);
 axis[1]=new p3d(-a,0,0);
@@ -561,7 +584,8 @@ axis[4]=new p3d(0,0,a);
 axis[5]=new p3d(0,0,-a);
 for(let i=0;i<8;i++){
 p[i]=new p3d((i&1)*b-b/2,(i&2)*b/2-b/2,(i&4)*b/4-b/2);
-}
+}}
+init2();
 paint();
 
 //画图区
@@ -717,6 +741,67 @@ return false;
 return true;
 }}
 </script>
+</body>
+</html><pre><code>&lt;!DOCTYPE html&gt;
+</code></pre>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Tutorial Demo</title>
+  </head>
+  <body>
+    <!--- 图的画布容器 --->
+    <div id="mountNode"></div>
+<pre><code>&lt;!-- 引入 G6 --&gt;
+&lt;script src=&quot;https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.7.1/dist/g6.min.js&quot;&gt;&lt;/script&gt;
+
+&lt;script src='me.js'&gt;
+  // 定义数据源
+</code></pre>
+</script>
+<script>
+      // 创建 G6 图实例
+      const graph = new G6.Graph({
+        container: 'mountNode', // 指定图画布的容器 id，与第 9 行的容器对应
+        // 画布宽高
+        width: 800,
+        height: 500,
+<p>layout: {
+type: 'force', // 指定为力导向布局
+preventOverlap: true, // 防止节点重叠
+nodeSize:30,
+linkDistance: 170,
+alpha:1,
+},</p>
+<p>modes: {
+default: ['zoom-canvas'], // 允许拖拽画布、放缩画布、拖拽节点
+},
+});
+// 读取数据
+graph.data(data);
+// 渲染图
+graph.render();</p>
+<p>node=data.nodes;</p>
+<pre><code>graph.on('node:dragstart', (e)=&gt; {
+  graph.layout();
+  refreshDragedNodePosition(e);
+});
+graph.on('node:drag', (e)=&gt; {
+  graph.layout();
+  refreshDragedNodePosition(e);
+});
+graph.on('node:dragend', (e)=&gt; {
+  e.item.get('model').fx = null;
+  e.item.get('model').fy = null;
+});
+</code></pre>
+<p>function refreshDragedNodePosition(e) {
+const model = e.item.get('model');
+model.fx = e.x;
+model.fy = e.y;
+}</p>
+<pre><code>&lt;/script&gt;
+</code></pre>
 </body>
 </html><h3 id="1146"><a class="header" href="#1146">1146</a></h3>
 <h1 id="涧水之迹---seelie"><a class="header" href="#涧水之迹---seelie">涧水之迹   SEELIE</a></h1>

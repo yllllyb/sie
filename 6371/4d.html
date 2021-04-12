@@ -8,16 +8,28 @@
 -webkit-writing-mode: horizontal-tb !important;
 color: white;
 background-color: black;
-font: 400 13.3333px Arial;
+font: 400 20px Arial;
 padding:0;
 border-width:0;}
 </style>
 </head> 
-<body>
+<body style="margin: 0 0 0 0">
 <canvas id="cav" style="background:black"></canvas>
 <button id="bt" onclick="obt()">3d</button></body>
-	
+
 <script>   
+
+window.onresize=function(){
+w=window.innerWidth;
+h=window.innerHeight;
+cav.width=w;
+cav.height=h;
+con.lineWidth=0.6;
+init1();
+init2();
+paint();
+};
+
 //参数区
 var pc=isPC();
 var d3=1;
@@ -27,17 +39,19 @@ h=window.innerHeight,
 d,f,r,std;
 var bt=document.getElementById("bt");
 bt.style.position="absolute";
+function init1(){
 if(pc){
-if(h<w/2){
-h*=0.98;w=h*2;}else{w*=0.98;h=w/2;}
-bt.style.left=w-8+"px";bt.style.top=8+"px";
+if(h<w/2){h*=0.98;w=h*2;}else{w*=0.98;h=w/2;}
+bt.style.left=w-30+"px";bt.style.top=8+"px";
 std=h;
 }else{
 if(h/2<w){h*=0.98;w=h/2;}else{h=w*2;w*=0.98;}
 bt.style.left=w-8+"px";bt.style.top=h-8+"px";
 bt.style.transform="rotate(90deg)";
 std=w;}
-d=std;f=std/30;r=std*0.0001;
+d=std;f=std/30;r=std*0.00002;
+}
+init1();
 var ol=0,ot=0;
 var cav=document.getElementById("cav");
 cav.width=w;
@@ -46,6 +60,7 @@ var con=cav.getContext("2d");
 con.lineWidth=0.6;
 //点坐标
 var axis=new Array(),p=new Array();
+function init2(){
 var a=std*0.5,b=std*0.4;
 axis[0]=new p4d(a,0,0,0);
 axis[1]=new p4d(-a,0,0,0);
@@ -57,7 +72,8 @@ axis[6]=new p4d(0,0,0,a);
 axis[7]=new p4d(0,0,0,-a);
 for(let i=0;i<16;i++){
 p[i]=new p4d((i&1)*b-b/2,(i&2)*b/2-b/2,(i&4)*b/4-b/2,(i&8)*b/8-b/2);
-}
+}}
+init2();
 paint();
 
 //画图区
