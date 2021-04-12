@@ -20,8 +20,8 @@
       const graph = new G6.Graph({
         container: 'mountNode', // 指定图画布的容器 id，与第 9 行的容器对应
         // 画布宽高
-        width: 800,
-        height: 500,
+        width: window.innerWidth;
+        height: window.innerHeight;
 
 layout: {
      type: 'force', // 指定为力导向布局
