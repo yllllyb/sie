@@ -743,65 +743,170 @@ return true;
 </script>
 </body>
 </html><!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1",user-scalable=no" />
-    <title>Tutorial Demo</title>
-  </head>
-  <body>
-    <!--- 图的画布容器 --->
-    <div id="mountNode"></div>
-<pre><code>&lt;!-- 引入 G6 --&gt;
-&lt;script src=&quot;https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.7.1/dist/g6.min.js&quot;&gt;&lt;/script&gt;
+    <title>testD3_chp14_1.html</title>
+<pre><code>&lt;script type=&quot;text/javascript&quot; src=&quot;http://d3js.org/d3.v6.min.js&quot;&gt;&lt;/script&gt;
 
-&lt;script src='me.js'&gt;
-  // 定义数据源
+&lt;meta name=&quot;keywords&quot; content=&quot;keyword1,keyword2,keyword3&quot;&gt;
+&lt;meta name=&quot;description&quot; content=&quot;this is my page&quot;&gt;
+&lt;meta name=&quot;content-type&quot; content=&quot;text/html; charset=GBK&quot;&gt;
+
+&lt;!--&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;./styles.css&quot;&gt;--&gt;
 </code></pre>
-</script>
-<script>
-      // 创建 G6 图实例
-      const graph = new G6.Graph({
-        container: 'mountNode', // 指定图画布的容器 id，与第 9 行的容器对应
-        // 画布宽高
-        width: window.innerWidth,
-        height: window.innerHeight,
-<p>layout: {
-type: 'force', // 指定为力导向布局
-preventOverlap: true, // 防止节点重叠
-nodeSize:30,
-linkDistance: 170,
-alpha:1,
-},</p>
-<p>modes: {
-default: ['zoom-canvas'], // 允许拖拽画布、放缩画布、拖拽节点
-},
-});
-// 读取数据
-graph.data(data);
-// 渲染图
-graph.render();</p>
-<p>node=data.nodes;</p>
-<pre><code>graph.on('node:dragstart', (e)=&gt; {
-  graph.layout();
-  refreshDragedNodePosition(e);
-});
-graph.on('node:drag', (e)=&gt; {
-  graph.layout();
-  refreshDragedNodePosition(e);
-});
-graph.on('node:dragend', (e)=&gt; {
-  e.item.get('model').fx = null;
-  e.item.get('model').fy = null;
-});
+</head>
+<body>
+    <svg width="960" height="600"></svg>
+    <script>
+    	var marge = {top:60,bottom:60,left:60,right:60}
+    	var svg = d3.select("svg")
+    	var width = svg.attr("width")
+    	var height = svg.attr("height")
+    	var g = svg.append("g")
+    		.attr("transform","translate("+marge.top+","+marge.left+")");
+<pre><code>	//准备数据
+	var nodes = [
+		{name:&quot;湖南邵阳&quot;},
+		{name:&quot;山东莱州&quot;},
+		{name:&quot;广东阳江&quot;},
+		{name:&quot;山东枣庄&quot;},
+		{name:&quot;泽&quot;},
+		{name:&quot;恒&quot;},
+		{name:&quot;鑫&quot;},
+		{name:&quot;明山&quot;},
+		{name:&quot;班长&quot;}
+	];
+	
+	var edges = [
+		{source:0,target:4,relation:&quot;籍贯&quot;,value:1.3},
+		{source:4,target:5,relation:&quot;舍友&quot;,value:1},
+		{source:4,target:6,relation:&quot;舍友&quot;,value:1},
+		{source:4,target:7,relation:&quot;舍友&quot;,value:1},
+		{source:1,target:6,relation:&quot;籍贯&quot;,value:2},
+		{source:2,target:5,relation:&quot;籍贯&quot;,value:0.9},
+		{source:3,target:7,relation:&quot;籍贯&quot;,value:1},
+		{source:5,target:6,relation:&quot;同学&quot;,value:1.6},
+		{source:6,target:7,relation:&quot;朋友&quot;,value:0.7},
+		{source:6,target:8,relation:&quot;职责&quot;,value:2}
+	];
+	//设置一个color的颜色比例尺，为了让不同的扇形呈现不同的颜色
+	var colorScale = d3.scaleOrdinal()
+		.domain(d3.range(nodes.length))
+		.range(d3.schemeCategory10);
+	
+	//新建一个力导向图
+	var forceSimulation = d3.forceSimulation()
+		.force(&quot;link&quot;,d3.forceLink())
+		.force(&quot;charge&quot;,d3.forceManyBody())
+		.force(&quot;center&quot;,d3.forceCenter());;
+		
+	//初始化力导向图，也就是传入数据
+	//生成节点数据
+	forceSimulation.nodes(nodes)
+		.on(&quot;tick&quot;,ticked);//这个函数很重要，后面给出具体实现和说明
+	//生成边数据
+	forceSimulation.force(&quot;link&quot;)
+		.links(edges)
+		.distance(function(d){//每一边的长度
+			return d.value*100;
+		})    	
+	//设置图形的中心位置	
+	forceSimulation.force(&quot;center&quot;)
+		.x(width/2)
+		.y(height/2);
+	//在浏览器的控制台输出
+	console.log(nodes);
+	console.log(edges);
+	
+	//有了节点和边的数据后，我们开始绘制
+	//绘制边
+	var links = g.append(&quot;g&quot;)
+		.selectAll(&quot;line&quot;)
+		.data(edges)
+		.enter()
+		.append(&quot;line&quot;)
+		.attr(&quot;stroke&quot;,function(d,i){
+			return colorScale(i);
+		})
+		.attr(&quot;stroke-width&quot;,1);
+	var linksText = g.append(&quot;g&quot;)
+		.selectAll(&quot;text&quot;)
+		.data(edges)
+		.enter()
+		.append(&quot;text&quot;)
+		.text(function(d){
+			return d.relation;
+		})
+	
+	//绘制节点
+	//老规矩，先为节点和节点上的文字分组
+	var gs = g.selectAll(&quot;.circleText&quot;)
+		.data(nodes)
+		.enter()
+		.append(&quot;g&quot;)
+		.attr(&quot;transform&quot;,function(d,i){
+			var cirX = d.x;
+			var cirY = d.y;
+			return &quot;translate(&quot;+cirX+&quot;,&quot;+cirY+&quot;)&quot;;
+		})
+		.call(drag(forceSimulation)
+		);
+		
+	//绘制节点
+	gs.append(&quot;circle&quot;)
+		.attr(&quot;r&quot;,10)
+		.attr(&quot;fill&quot;,function(d,i){
+			return colorScale(i);
+		})
+	//文字
+	gs.append(&quot;text&quot;)
+		.attr(&quot;x&quot;,-10)
+		.attr(&quot;y&quot;,-20)
+		.attr(&quot;dy&quot;,10)
+		.text(function(d){
+			return d.name;
+		})
+	
+	function ticked(){
+		links
+			.attr(&quot;x1&quot;,function(d){return d.source.x;})
+			.attr(&quot;y1&quot;,function(d){return d.source.y;})
+			.attr(&quot;x2&quot;,function(d){return d.target.x;})
+			.attr(&quot;y2&quot;,function(d){return d.target.y;});
+			
+		linksText
+			.attr(&quot;x&quot;,function(d){
+			return (d.source.x+d.target.x)/2;
+		})
+		.attr(&quot;y&quot;,function(d){
+			return (d.source.y+d.target.y)/2;
+		});
+			
+		gs
+			.attr(&quot;transform&quot;,function(d) { return &quot;translate(&quot; + d.x + &quot;,&quot; + d.y + &quot;)&quot;; });
+	}
 </code></pre>
-<p>function refreshDragedNodePosition(e) {
-const model = e.item.get('model');
-model.fx = e.x;
-model.fy = e.y;
+<p>function drag(simulation) {</p>
+<p>function dragstarted(event) {
+if (!event.active) simulation.alphaTarget(0.3).restart();
+event.subject.fx = event.subject.x;
+event.subject.fy = event.subject.y;
 }</p>
-<pre><code>&lt;/script&gt;
-</code></pre>
+<p>function dragged(event) {
+event.subject.fx = event.x;
+event.subject.fy = event.y;
+}</p>
+<p>function dragended(event) {
+if (!event.active) simulation.alphaTarget(0);
+event.subject.fx = null;
+event.subject.fy = null;
+}</p>
+<p>return d3.drag()
+.on(&quot;start&quot;, dragstarted)
+.on(&quot;drag&quot;, dragged)
+.on(&quot;end&quot;, dragended);
+}
+</script></p>
 </body>
 </html><h3 id="1146"><a class="header" href="#1146">1146</a></h3>
 <h1 id="涧水之迹---seelie"><a class="header" href="#涧水之迹---seelie">涧水之迹   SEELIE</a></h1>
