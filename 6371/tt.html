@@ -1,17 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>force</title>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1",user-scalable=no" />
+    <title>Tutorial Demo</title>
+  </head>
+  <body>
+    <!--- 图的画布容器 --->
+    <div id="mountNode"></div>
 
-</body>
+    <!-- 引入 G6 -->
+    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.7.1/dist/g6.min.js"></script>
 
-<script type="module">
-import {Runtime, Inspector} from "https://cdn.jsdelivr.net/npm/@observablehq/runtime@4/dist/runtime.js"
-import notebook from "https://api.observablehq.com/d/b29d8d9f3dd8b035.tgz?v=3"
-new Runtime.module(notebook,Inspector.into(document.body));
+    <script src='me.js'>
+      // 定义数据源
 </script>
+<script>
+      // 创建 G6 图实例
+      const graph = new G6.Graph({
+        container: 'mountNode', // 指定图画布的容器 id，与第 9 行的容器对应
+        // 画布宽高
+        width: window.innerWidth,
+        height: window.innerHeight,
 
+layout: {
+     type: 'force', // 指定为力导向布局
+     preventOverlap: true, // 防止节点重叠
+     nodeSize:30,
+     linkDistance: 170,
+     alpha:1,
+  },
+
+modes: {
+    default: ['zoom-canvas'], // 允许拖拽画布、放缩画布、拖拽节点
+  },
+      });
+      // 读取数据
+      graph.data(data);
+      // 渲染图
+      graph.render();
+
+node=data.nodes;
+
+    graph.on('node:dragstart', (e)=> {
+      graph.layout();
+      refreshDragedNodePosition(e);
+    });
+    graph.on('node:drag', (e)=> {
+      graph.layout();
+      refreshDragedNodePosition(e);
+    });
+    graph.on('node:dragend', (e)=> {
+      e.item.get('model').fx = null;
+      e.item.get('model').fy = null;
+    });
+
+
+function refreshDragedNodePosition(e) {
+  const model = e.item.get('model');
+  model.fx = e.x;
+  model.fy = e.y;
+}
+
+    </script>
+  </body>
 </html>
