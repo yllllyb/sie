@@ -721,6 +721,7 @@ return true;
 <html>
   <head>
     <title>testD3_chp14_1.html</title>
+<script src="tt.js"></script>
 <script src="https://d3js.org/d3.v6.min.js"></script>
 <pre><code>&lt;meta name=&quot;keywords&quot; content=&quot;keyword1,keyword2,keyword3&quot;&gt;
 &lt;meta name=&quot;description&quot; content=&quot;this is my page&quot;&gt;
@@ -739,30 +740,7 @@ return true;
     	var g = svg.append("g")
     		.attr("transform","translate("+marge.top+","+marge.left+")");
 <pre><code>	//准备数据
-	var nodes = [
-		{name:&quot;湖南邵阳&quot;},
-		{name:&quot;山东莱州&quot;},
-		{name:&quot;广东阳江&quot;},
-		{name:&quot;山东枣庄&quot;},
-		{name:&quot;泽&quot;},
-		{name:&quot;恒&quot;},
-		{name:&quot;鑫&quot;},
-		{name:&quot;明山&quot;},
-		{name:&quot;班长&quot;}
-	];
 	
-	var edges = [
-		{source:0,target:4,relation:&quot;籍贯&quot;,value:1.3},
-		{source:4,target:5,relation:&quot;舍友&quot;,value:1},
-		{source:4,target:6,relation:&quot;舍友&quot;,value:1},
-		{source:4,target:7,relation:&quot;舍友&quot;,value:1},
-		{source:1,target:6,relation:&quot;籍贯&quot;,value:2},
-		{source:2,target:5,relation:&quot;籍贯&quot;,value:0.9},
-		{source:3,target:7,relation:&quot;籍贯&quot;,value:1},
-		{source:5,target:6,relation:&quot;同学&quot;,value:1.6},
-		{source:6,target:7,relation:&quot;朋友&quot;,value:0.7},
-		{source:6,target:8,relation:&quot;职责&quot;,value:2}
-	];
 	//设置一个color的颜色比例尺，为了让不同的扇形呈现不同的颜色
 	var colorScale = d3.scaleOrdinal()
 		.domain(d3.range(nodes.length))
