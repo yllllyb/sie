@@ -19,7 +19,6 @@ con.lineWidth=0.6;
 paint();
 };
 
-
 //参数区
 var pc=isPC();
 var 
@@ -27,16 +26,9 @@ w=window.innerWidth-6,
 h=window.innerHeight-6,
 d,f,r,std;
 fov=90;
-v_distance=(w/2)/Math.tan(fov/2);
+v_distance=(w/2)/Math.tan(fov*Math.PI/360);
 
-
-function init1(){
-r=0.002;
-}
-
-init1();
-
-var ol=0,ot=0;
+var ol=0,ot=0,t_length=0;
 var cav=document.getElementById("cav");
 cav.width=w;
 cav.height=h;
@@ -90,8 +82,8 @@ function ds(s,con){
 con.fillStyle=s.color;
 var tx=s.x*v_distance/s.z;
 var ty=-s.y*v_distance/s.z;
-if(pc){tx=tx+w/2;ty=ty+h/2;}
-else{tx=tx+h/2;ty=ty+w/2;}
+tx=tx+w/2;
+ty=ty+h/2;
 con.fillRect(tx,ty,s.r,s.r);
 }
 
@@ -107,9 +99,13 @@ if(!e.touches){
 ol=e.clientX;
 ot=e.clientY;
 }else{
+if(e.touches.length>=2){
+let x=e.touches[0].pageX-e.touches[1].pageX;
+let y=e.touches[0].pageY-e.touches[1].pageY;
+t_length=Math.sqrt(x*x+y*y);
+}else{
 ol=e.touches[0].pageX;
-ot=e.touches[0].pageY;
-}
+ot=e.touches[0].pageY;}}
 flag = true;
 }
 
@@ -119,22 +115,24 @@ if(!flag)return;
 var ax,ay;
 
 if(!e.touches){
-ax = (e.clientX - ol)*r;
-ay = (e.clientY - ot)*r; 
+ax = (e.clientX - ol)/v_distance;
+ay = (e.clientY - ot)/v_distance; 
 }else{
-ax = (e.touches[0].pageX - ol)*r;
-ay = (e.touches[0].pageY - ot)*r;
-}
-if(pc){
-for(let k in star){
-star[k].rotateY(-ax);
-star[k].rotateX(-ay);
-}
+if(e.touches.length>=2){
+let x=e.touches[0].pageX-e.touches[1].pageX;
+let y=e.touches[0].pageY-e.touches[1].pageY;
+let scale=Math.sqrt(x*x+y*y)/t_length;
+fov=fov*scale;
+v_distance=(w/2)/Math.tan(fov*Math.PI/360);
+paint();
+return;
 }else{
-for(let k in star){
-star[k].rotateX(ax);
-star[k].rotateY(ay);
+ax = (e.touches[0].pageX - ol)/v_distance;
+ay = (e.touches[0].pageY - ot)/v_distance;
 }}
+for(let k in star){
+star[k].rotateY(ax);
+star[k].rotateX(ay);}
 paint();
 
 if(!e.touches){
@@ -147,6 +145,14 @@ ot=e.touches[0].pageY;
 
 var end=function(e){
 flag=false;
+t_length=0;
+}
+
+var wheel=function(e){
+let delta=(e.wheelDelta&&(e.wheelDelta>0?1:-1));
+fov=Math.max(Math.min(fov-delta*3,140),30);
+v_distance=(w/2)/Math.tan(fov*Math.PI/360);
+paint();
 }
 
 cav.addEventListener("touchstart", start);
@@ -155,6 +161,7 @@ window.addEventListener("touchmove", move);
 window.addEventListener("mousemove", move);
 window.addEventListener("touchend", end);
 window.addEventListener("mouseup", end);
+window.addEventListener("mousewheel", wheel);
 }
 
 //判断浏览器函数
