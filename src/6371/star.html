@@ -126,7 +126,7 @@ if(e.touches.length>=2){
 let x=e.touches[0].pageX-e.touches[1].pageX;
 let y=e.touches[0].pageY-e.touches[1].pageY;
 let scale=Math.sqrt(x*x+y*y)/t_length-1;
-fov=Math.max(Math.min(fov-scale,140),30);
+fov=Math.max(Math.min(fov-scale*2,140),30);
 v_distance=(w/2)/Math.tan(fov*Math.PI/360);
 paint();
 return;
