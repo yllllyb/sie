@@ -1,181 +1,42 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
-<head>
-<script src="stars.js"></script>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-</head> 
-<body style="margin: 0 0 0 0">
-<canvas id="cav" style="background:black"></canvas>
+<html>
 
-<script>
+	<head>
+		<meta charset="utf-8" />
+		<title>Photo Sphere Viewer</title>
+		<meta name="viewport" content="initial-scale=1.0" />
+		<script src="./stars/three.min.js"></script>
+		<script src="./stars/photo-sphere-viewer.min.js"></script>
+		<style>
+			html, body {
+				margin: 0;
+				width: 100%;
+				height: 100%;
+				overflow: hidden;
+			}
 
-window.onresize=function(){
-w=window.innerWidth-6;
-h=window.innerHeight-6;
-cav.width=w;
-cav.height=h;
-con.lineWidth=0.6;
-paint();
-};
+			#container {
+				width: 100%;
+				height: 100%;
+			}
+		</style>
+	</head>
 
-//参数区
-var pc=isPC();
-var 
-w=window.innerWidth-6,
-h=window.innerHeight-6,
-d,f,r,std;
-fov=90;
-v_distance=(w/2)/Math.tan(fov*Math.PI/360);
+	<body>
+		<div id="container"></div>
 
-var ol=0,ot=0,t_length=0;
-var cav=document.getElementById("cav");
-cav.width=w;
-cav.height=h;
-var con=cav.getContext("2d");
-con.lineWidth=0.6;
-//点坐标
-var star=new Array();
+		<script>
+			var div = document.getElementById('container');
+			var PSV = new PhotoSphereViewer({
+					panorama: './stars/01.jpg',
+					container: div,
+					time_anim: false,
+					navbar: true,
+					navbar_style: {
+						backgroundColor: 'rgba(58, 67, 77, 0.7)'
+					},
+				});
+		</script>
+	</body>
 
-function init2(){
-if(pc){
-for (var i=0;i<stars.length;i++){
-star[i]=new p3d(stars[i].x,stars[i].y,stars[i].z,stars[i].r,stars[i].l);
-}}else{
-for (var i=0;i<stars.length;i++){
-star[i]=new p3d(stars[i].x,stars[i].y,stars[i].z,stars[i].r*0.8,stars[i].l);
-}}}
-init2();
-paint();
-
-//画图区
-function paint(){
-con.fillStyle="black";
-con.fillRect(0,0,w,h);
-for(var i=0;i<stars.length;i++){
-if(star[i].z>0.1){
-ds(star[i],con);}}
-con.fill();
-}
-
-//框架区
-function p3d(x,y,z,r,l){
-this.x=x;
-this.y=y;
-this.z=z;
-this.r=r;
-this.color="rgb("+Math.floor(64*l)+","+Math.floor(170*l)+","+Math.floor(255*l)+")";
-this.rotateX=function (angle){
-var sinA=Math.sin(angle);
-var cosA=Math.cos(angle);
-var tz=this.z;
-var ty=this.y;
-this.y=ty*cosA-tz*sinA;
-this.z=ty*sinA+tz*cosA;
-};
-this.rotateY=function (angle){
-var sinA=Math.sin(angle);
-var cosA=Math.cos(angle);
-var tz=this.z;
-var tx=this.x;
-this.z=tz*cosA-tx*sinA;
-this.x=tz*sinA+tx*cosA;
-};}
-
-function ds(s,con){
-con.fillStyle=s.color;
-var tx=s.x*v_distance/s.z;
-var ty=-s.y*v_distance/s.z;
-tx=tx+w/2;
-ty=ty+h/2;
-con.fillRect(tx,ty,s.r,s.r);
-}
-
-//转动区
-window.onload = function(){
-var flag=false;//是否按下
-
-var start=function(e){
-e.stopPropagation();
-e.preventDefault();
-
-if(!e.touches){
-ol=e.clientX;
-ot=e.clientY;
-}else{
-if(e.touches.length>=2){
-let x=e.touches[0].pageX-e.touches[1].pageX;
-let y=e.touches[0].pageY-e.touches[1].pageY;
-t_length=Math.sqrt(x*x+y*y);
-}else{
-ol=e.touches[0].pageX;
-ot=e.touches[0].pageY;}}
-flag = true;
-}
-
-var move=function(e){
-if(!flag)return;
-
-var ax,ay;
-
-if(!e.touches){
-ax = (e.clientX - ol)/v_distance;
-ay = (e.clientY - ot)/v_distance; 
-}else{
-if(e.touches.length>=2){
-let x=e.touches[0].pageX-e.touches[1].pageX;
-let y=e.touches[0].pageY-e.touches[1].pageY;
-let scale=Math.sqrt(x*x+y*y)/t_length-1;
-fov=Math.max(Math.min(fov-scale*10,140),30);
-v_distance=(w/2)/Math.tan(fov*Math.PI/360);
-paint();
-return;
-}else{
-ax = (e.touches[0].pageX - ol)/v_distance;
-ay = (e.touches[0].pageY - ot)/v_distance;
-}}
-for(let k in star){
-star[k].rotateY(ax);
-star[k].rotateX(ay);}
-paint();
-
-if(!e.touches){
-ol = e.clientX;
-ot = e.clientY;
-}else{
-ol=e.touches[0].pageX;
-ot=e.touches[0].pageY;
-}}
-
-var end=function(e){
-flag=false;
-t_length=0;
-}
-
-var wheel=function(e){
-let delta=(e.wheelDelta&&(e.wheelDelta>0?1:-1));
-fov=Math.max(Math.min(fov-delta*3,140),30);
-v_distance=(w/2)/Math.tan(fov*Math.PI/360);
-paint();
-}
-
-cav.addEventListener("touchstart", start);
-cav.addEventListener("mousedown", start);
-window.addEventListener("touchmove", move);
-window.addEventListener("mousemove", move);
-window.addEventListener("touchend", end);
-window.addEventListener("mouseup", end);
-window.addEventListener("mousewheel", wheel);
-}
-
-//判断浏览器函数
-function isPC(){
-if(window.navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)) {
-return false;
-}else{
-return true;
-}}
-</script>
-
-</body>
 </html>
