@@ -26,17 +26,26 @@
 		<div id="container"></div>
 
 		<script>
+			var pc=isPC();
+var fov=0;
+if(pc){fov=45}else{fov=90}
 			var div = document.getElementById('container');
 			var PSV = new PhotoSphereViewer({
 					panorama: './stars/01.jpg',
 					container: div,
-					max_fov: 45,
+					max_fov: fov,
 					time_anim: false,
 					navbar: true,
 					navbar_style: {
 						backgroundColor: 'rgba(58, 67, 77, 0.7)'
 					},
 				});
+function isPC(){
+if(window.navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)) {
+return false;
+}else{
+return true;
+}}
 		</script>
 	</body>
 
