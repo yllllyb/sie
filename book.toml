@@ -1,7 +1,6 @@
 [book]
 authors = ["ylll"]
 language = "zh"
-multilingual = false
 src = "src"
 title = "sie"
 
