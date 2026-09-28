@@ -1,48 +1,64 @@
 <!DOCTYPE HTML>
-<html lang="zh" class="sidebar-visible no-js light">
+<html lang="zh" class="light sidebar-visible" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
-        <!-- 这就是个辣鸡玩意，不过好在它不复杂，可以调整的地方十分多 -->
         <meta charset="UTF-8">
         <title>sie</title>
-        <meta name="robots" content="noindex" />
+        <meta name="robots" content="noindex">
+
+
         <!-- Custom HTML head -->
-        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="theme-color" content="#ffffff" />
+        <meta name="theme-color" content="#ffffff">
 
-        <link rel="icon" href="favicon.svg">
-        <link rel="shortcut icon" href="favicon.png">
-        <link rel="stylesheet" href="css/variables.css">
-        <link rel="stylesheet" href="css/general.css">
-        <link rel="stylesheet" href="css/chrome.css">
-        <link rel="stylesheet" href="css/print.css" media="print">
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-e96d0476.css">
+        <link rel="stylesheet" href="css/chrome-d279d366.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
 
         <!-- Fonts -->
-        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-        <link rel="stylesheet" href="fonts/fonts.css">
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="highlight.css">
-        <link rel="stylesheet" href="tomorrow-night.css">
-        <link rel="stylesheet" href="ayu-highlight.css">
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-df31e39c.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-d3ff2bf0.js"></script>
     </head>
     <body>
-
-        <!-- Provide site root to javascript -->
-        <script type="text/javascript">
-            var path_to_root = "";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
-        </script>
-
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
-        <!-- 这是个啥玩意？？ -->
-        <script type="text/javascript">
+        <script>
             try {
-                var theme = localStorage.getItem('mdbook-theme');
-                var sidebar = localStorage.getItem('mdbook-sidebar');
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -55,59 +71,70 @@
         </script>
 
         <!-- Set the theme before any content is loaded, prevents flash -->
-        <script type="text/javascript">
-            var theme;
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            var html = document.querySelector('html');
-            html.classList.remove('no-js')
+            const html = document.documentElement;
             html.classList.remove('light')
             html.classList.add(theme);
-            html.classList.add('js');
+            html.classList.add("js");
         </script>
 
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
         <!-- Hide / unhide sidebar before it is displayed -->
-        <script type="text/javascript">
-            var html = document.querySelector('html');
-            var sidebar = 'hidden';
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
             }
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
         </script>
 
-        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <div class="sidebar-scrollbox">
-            <!-- 看起来这个toc就是关键 -->
-                <ol class="chapter"><li class="chapter-item "><a href="0000/pre.html">前</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="0000/back.html">back</a></li></ol></li><li class="chapter-item "><a href="7411/index.html">真实之理</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="7411/long.html">long title</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="7411/test.html">test</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="7411/tttt.html">tttt</a></li></ol></li></ol></li></ol></li><li class="chapter-item "><a href="6371/index.html">繁星之律</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="6371/4d.html">4d</a></li><li class="chapter-item "><a href="6371/3d.html">3d</a></li><li class="chapter-item "><a href="6371/tt.html">nodes</a></li></ol></li><li class="chapter-item "><a href="1136/index.html">涧水之迹</a></li><li class="chapter-item "><a href="4785/index.html">蔓萝之叶</a></li><li class="chapter-item "><a href="9321/index.html">环星之舰</a></li><li class="chapter-item "><a href="8102/index.html">坠神之海</a></li></ol>
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
             </div>
-            <!-- 这里自带了目录表resize -->
-            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
-        <div id="page-wrapper" class="page-wrapper">
+        <div id="mdbook-page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
-                <div id="menu-bar" class="menu-bar sticky bordered">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
-                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
-                            <i class="fa fa-bars"></i>
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
                         </button>
-                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
-                            <i class="fa fa-paint-brush"></i>
-                        </button>
-                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
-                            <i class="fa fa-search"></i>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
                         </button>
                     </div>
 
@@ -115,44 +142,53 @@
 
                     <div class="right-buttons">
                         <a href="print.html" title="Print this book" aria-label="Print this book">
-                            <i id="print-button" class="fa fa-print"></i>
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
                         </a>
+
                     </div>
                 </div>
 
-                <div id="search-wrapper" class="hidden">
-                    <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
                     </form>
-                    <div id="searchresults-outer" class="searchresults-outer hidden">
-                        <div id="searchresults-header" class="searchresults-header"></div>
-                        <ul id="searchresults">
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
                         </ul>
                     </div>
                 </div>
+
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
-                <script type="text/javascript">
-                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
-                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
-                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
                         link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
                     });
                 </script>
 
-                <div id="content" class="content">
+                <div id="mdbook-content" class="content">
                     <main>
                         <h1 id="前"><a class="header" href="#前">前</a></h1>
-<br/>
+<br />
 <p>这里是我用来收集和存放各种关于我们的世界的东西</p>
 <p>有点类似于某些人所说的“一定要留下点什么东西”的感觉（虽然我初衷不是这个）</p>
 <p>未来的我以及我的朋友们，希望你们能在这些世界过得愉快。</p>
-<p><br/><br/></p>
+<p><br /><br /></p>
 <blockquote>
 <p>折按在左边。如果没有显示的话，点一下左上角最左边的图标。</p>
 </blockquote>
-<br/>
+<br />
 <p><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="0000/license.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</p>
-<div style="break-before: page; page-break-before: always;"></div><body onkeypress="sw()">
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="back"><a href="#back" class="header">back</a></h1>
+<body onkeypress="sw()">
 <canvas id="cav" onmousedown="re()"></canvas></body>
 <script>
 window.onload = function(){re();}
@@ -191,38 +227,746 @@ if(on==true){
 	re();
 }
 </script>
-<div style="break-before: page; page-break-before: always;"></div><h3 id="7411"><a class="header" href="#7411">7411</a></h3>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="真实之理"><a href="#真实之理" class="header">真实之理</a></h1>
+<h3 id="7411"><a class="header" href="#7411">7411</a></h3>
 <h1 id="真实之理---siehyle"><a class="header" href="#真实之理---siehyle">真实之理   SIEHYLE</a></h1>
-<br/>
+<br />
 <p>『siehyle』部分，用于记录各种自然科学知识。</p>
 <p>水平下限大概在天朝的初中，上限不确定。</p>
-<p>它的一个重要作用是，收集、储存各种知识，希望解决没有学习资源<sup class="footnote-reference"><a href="#&lt;sup&gt;1&lt;/sup&gt;">1</a></sup>而带来的问题。</p>
+<p>它的一个重要作用是，收集、储存各种知识，希望解决没有学习资源<sup class="footnote-reference" id="fr-&lt;sup&gt;1&lt;/sup&gt;-1"><a href="#footnote-&lt;sup&gt;1&lt;/sup&gt;">1</a></sup>而带来的问题。</p>
 <p>还有一个用途是，帮助想学习的人更快的建立知识的框架体系，以便更快的获取知识。</p>
-<br/>
-<div class="footnote-definition" id="&lt;sup&gt;1&lt;/sup&gt;"><sup class="footnote-definition-label">1</sup>
-<p>没错，就算是在互联网如此发达的今天，依旧存在这个问题。<br/>一个是学习资料不易获得，一个是不知道自己想学什么，这是两大问题。</p>
-</div>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="测试长标题"><a class="header" href="#测试长标题">测试长标题</a></h1>
+<br />
+<hr>
+<ol class="footnote-definition">
+<li id="footnote-&lt;sup&gt;1&lt;/sup&gt;">
+<p>没错，就算是在互联网如此发达的今天，依旧存在这个问题。<br />一个是学习资料不易获得，一个是不知道自己想学什么，这是两大问题。 <a href="#fr-&lt;sup&gt;1&lt;/sup&gt;-1">↩</a></p>
+</li>
+</ol>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="测试长标题"><a class="header" href="#测试长标题">测试长标题</a></h1>
 <p>长标题会不会导致换行问题</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="test"><a class="header" href="#test">test</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="test"><a class="header" href="#test">test</a></h1>
 <blockquote>
 <p>???</p>
 </blockquote>
 <p>往tttt的跳转</p>
-<p><a href="7411/tttt.html" tabindex="0">这个是链接</a></p>
-<p><a href="7411/tttt.html">这个也是吧</a></p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="tttt"><a class="header" href="#tttt">tttt</a></h1>
+<p><a href="#tttt" tabindex="0">这个是链接</a></p>
+<p><a href="#tttt">这个也是吧</a></p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="tttt"><a class="header" href="#tttt">tttt</a></h1>
 <blockquote>
 <p>???</p>
 </blockquote>
-<div style="break-before: page; page-break-before: always;"></div><h3 id="6371"><a class="header" href="#6371">6371</a></h3>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="繁星之律"><a href="#繁星之律" class="header">繁星之律</a></h1>
+<h3 id="6371"><a class="header" href="#6371">6371</a></h3>
 <h1 id="繁星之律---sternche"><a class="header" href="#繁星之律---sternche">繁星之律   STERNCHE</a></h1>
-<br/>
+<br />
 <p>『sternche』部分，用于记录不同的世界的科技。</p>
 <p>这里的科技，既包括科学理论，也包括技术产物。</p>
 <p>有的是其他世界已经存在的，有的是由『我们』提出的。</p>
 <p>关于具体的建造和使用，还在进一步讨论之中。</p>
-<div style="break-before: page; page-break-before: always;"></div><!DOCTYPE html>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="状态仪表盘"><a href="#状态仪表盘" class="header">状态仪表盘</a></h1>
+
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>状态自评量表</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+                 "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 24px 16px 80px;
+    line-height: 1.6;
+    color: #222;
+  }
+  h1 { font-size: 1.6em; margin-bottom: 0.2em; }
+  .subtitle { color: #666; font-size: 0.9em; margin-bottom: 2em; }
+<p>.dimension {
+border-left: 4px solid #ccc;
+padding-left: 14px;
+margin: 28px 0;
+}
+.dimension &gt; h2 {
+font-size: 1.15em;
+margin: 0 0 4px 0;
+}
+.dimension &gt; .dim-desc {
+color: #888;
+font-size: 0.85em;
+margin-bottom: 12px;
+}</p>
+<p>.item {
+margin: 14px 0 18px;
+}
+.item &gt; .item-title {
+font-weight: 600;
+margin-bottom: 6px;
+}
+.item label {
+display: block;
+padding: 6px 10px;
+border-radius: 6px;
+cursor: pointer;
+transition: background 0.12s;
+}
+.item label:hover { background: #f2f2f2; }
+.item input[type=“radio”] { margin-right: 8px; }</p>
+<p>.actions {
+margin: 32px 0 0;
+display: flex;
+gap: 12px;
+flex-wrap: wrap;
+}
+button {
+font-size: 1em;
+padding: 10px 20px;
+border-radius: 8px;
+border: 1px solid #bbb;
+background: #fff;
+cursor: pointer;
+}
+button.primary {
+background: #2c6bed;
+color: #fff;
+border-color: #2c6bed;
+}
+button:hover { opacity: 0.9; }</p>
+<p>#result {
+margin-top: 40px;
+display: none;
+}
+#result h2 { font-size: 1.2em; border-bottom: 2px solid #eee; padding-bottom: 6px; }
+#result .result-title {
+font-size: 1.5em;
+border-bottom: none;
+padding-bottom: 0;
+margin: 0 0 20px 0;
+}</p>
+<p>.chart-wrap {
+position: relative;
+width: 100%;
+max-width: 620px;
+margin: 0 auto 32px;
+}</p>
+<p>.level-group {
+margin: 8px 0;
+font-family: ui-monospace, “SF Mono”, Menlo, Consolas, monospace;
+font-size: 0.95em;
+}
+.level-group .lv { font-weight: 700; margin-right: 4px; }</p>
+<p>.recap .dimension { border-left-color: #ddd; }
+.recap .chosen {
+background: #eef4ff;
+border-radius: 6px;
+padding: 6px 10px;
+font-weight: 600;
+}
+.recap .unchosen {
+color: #aaa;
+padding: 6px 10px;
+}
+.recap .item-title { font-weight: 600; }</p>
+<p>.save-bar { margin-top: 28px; }</p>
+<p>@media print {
+.actions, .save-bar { display: none; }
+}
+</p>
+
+<body>
+<h1>状态自评量表</h1>
+
+<p class="subtitle">每个子维度为单选题，请选择最贴近你当前状态的一项。</p>
+
+<div id="form"></div>
+
+<div class="actions">
+  <button class="primary" id="btn-submit">确认完成</button>
+  <button id="btn-reset">清空重填</button>
+</div>
+
+<div id="result">
+  
+<h2 class="result-title">测试结果</h2>
+
+  
+<div class="chart-wrap">
+    <canvas id="radar"></canvas>
+  </div>
+
+  
+<h2>分数统计</h2>
+
+  
+<div id="level-stats"></div>
+
+  
+<h2 style="margin-top:40px;">选择明细</h2>
+
+  
+<div id="recap" class="recap"></div>
+
+  
+<div class="save-bar">
+    <button class="primary" id="btn-save">保存为 txt</button>
+  </div>
+
+</div>
+
+<script>
+/* ============ 数据定义 ============ */
+const DATA = [
+  {
+    name: "生理状态管理",
+    desc: "睡眠、运动、饮食、医疗、能量管理",
+    color: "#e57373",
+    items: [
+      {
+        title: "健康状态",
+        options: [
+          "只感觉状态很差，不知道怎么回事",
+          "知道自己有状态变化，但不知道怎么调整",
+          "有意识的调节自己的身心状态，掌握了一些低谷时调节的技巧",
+          "精神饱满，精力旺盛，有心力去做自己想做的事"
+        ]
+      },
+      {
+        title: "恢复调配",
+        options: [
+          "不想休息，完全不花精力在自己身上",
+          "知道应该休息，但不知道该怎么做，还是经常很累",
+          "知道一些生活的条例和方法，有意识的放松休息，能在重要事情上保持较好的精神",
+          "已经养成了良好的生活习惯，身体成为强大的支撑"
+        ]
+      }
+    ]
+  },
+  {
+    name: "心理状态管理",
+    desc: "情绪、调节、压力管理",
+    color: "#ffb74d",
+    items: [
+      {
+        title: "情绪管理",
+        options: [
+          "完全任由情绪产生和发泄，事后才意识到",
+          "能知道自己在情绪中，但只能等它过去，或只能压制情绪",
+          "能当下识别并控制情绪，但尚未与情绪和平共处",
+          "能发觉情绪并自主调节情绪，不让情绪主导，也不积压情绪"
+        ]
+      },
+      {
+        title: "压力管理",
+        options: [
+          "焦虑、逃避、不舒服，不知道从哪来的压力，也完全无法应对",
+          "知道自己有压力，但不知道怎么解决，只能硬抗",
+          "有应对压力的方法，有意识处理压力源，在压力面前仍能运作，但消耗心力",
+          "主动管理压力，压力都被转化为动力或被释放，不影响身心健康与思考判断"
+        ]
+      }
+    ]
+  },
+  {
+    name: "价值意义状态",
+    desc: "",
+    color: "#fff176",
+    items: [
+      {
+        title: "价值感 / 意义感",
+        options: [
+          "感到虚无，什么都没有意义",
+          "觉得只有当下的快乐有意义",
+          "愿意发展自我，为长远的事情做准备",
+          "认为存在自己的使命，愿意为使命而努力"
+        ]
+      }
+    ]
+  },
+  {
+    name: "自我实现",
+    desc: "自我、时空、飞船、使命",
+    color: "#81c784",
+    items: [
+      {
+        title: "憧憬 / 接触 / 贴近",
+        options: [
+          "完全没做相关的事，时间精力花在别的事上了",
+          "只做了些间接有关的，或推进了些项目的前置",
+          "有所投入，推进了部分项目",
+          "完全沉浸地投入了大量时间，进入心流状态"
+        ]
+      }
+    ]
+  },
+  {
+    name: "心智功能",
+    desc: "",
+    color: "#4fc3f7",
+    items: [
+      {
+        title: "时间分配 / 项目分配",
+        options: [
+          "想到什么做什么，没有规划；三分钟热度，感到很难做完任何事情",
+          "会列出计划，但完不成；或是只能做完一件事，多了就做不完",
+          "能够按时完成计划；能合理调配，分出轻重缓急，完成最重要的几件事情",
+          "能合理安排并运用时间；无论多忙都能得心应手"
+        ]
+      },
+      {
+        title: "认知",
+        options: [
+          "思绪沉重而混乱，难以思考或不愿思考",
+          "思绪模糊，只知道个大概；或是不明所以，只知道跟着做",
+          "能独立思考分析，看到问题或方法的本质",
+          "思路明晰，思域广阔，且能够回归并作用于现实"
+        ]
+      },
+      {
+        title: "判断决策",
+        options: [
+          "冲动决策，或完全由外界影响决定",
+          "知道应该权衡利弊后做决定，但不知道怎么思考",
+          "知道如何选择，能够权衡自己的得失",
+          "能应对风险，在不确定的情形下做出判断"
+        ]
+      }
+    ]
+  },
+  {
+    name: "情感状态",
+    desc: "边界、修复、自爱、自尊",
+    color: "#ba68c8",
+    items: [
+      {
+        title: "自我边界",
+        options: [
+          "很容易被别人的评价影响，经常改变自己的决定",
+          "知道应该有自己的决定，但还是难以拒绝别人，或总是顺从别人的期望",
+          "在大部分事情上有自己的选择，但还是会受权威或亲密关系的影响，在冲突中总是退让",
+          "能清楚分离自己的事与别人的事，不被别人影响但能听取建议"
+        ]
+      },
+      {
+        title: "自我爱护",
+        options: [
+          "总是在消耗自己，甚至会伤害自己",
+          "知道应该照顾自己，但不知道怎么做，有时也觉得不配",
+          "知道如何照顾自己，但需要意志力才能做到，有时需要被提醒",
+          "照顾自己是生活的一部分，总是能把自己照顾得很好"
+        ]
+      },
+      {
+        title: "自尊状态",
+        options: [
+          "害怕被否定，总是期望得到认可",
+          "有一定独立性，但还是经常自我怀疑；自我价值不稳定，在自卑和自傲之间摆动",
+          "能做到自我肯定，但还是需要亲友的鼓励；被批评时虽动摇但能恢复过来",
+          "有稳定的自尊，不随外界评价波动；不自大也不自卑，承认错误的同时不否定自己"
+        ]
+      }
+    ]
+  },
+  {
+    name: "自我负责",
+    desc: "",
+    color: "#a1887f",
+    items: [
+      {
+        title: "责任",
+        options: [
+          "逃避，不愿面对自己的选择，或不愿做出选择",
+          "会被动承担责任，但并不真正理解和负责",
+          "能面对并承担自己的选择和责任",
+          "为自己负责，然后也为共同体负责；能分清不同的责任"
+        ]
+      }
+    ]
+  },
+  {
+    name: "社交状态",
+    desc: "",
+    color: "#90a4ae",
+    items: [
+      {
+        title: "人际",
+        options: [
+          "疏离，感到孤独，没有可说话的人",
+          "部分接触，有些点头之交的普通朋友",
+          "关系平衡且恰当，能与好朋友互相促进成长",
+          "关系失衡，过度干预扰乱双方生活与精神"
+        ]
+      }
+    ]
+  }
+];
+
+/* ============ 常量 ============ */
+const STORAGE_KEY = "scale_answers_v1";
+const FLAT = [];
+DATA.forEach((dim, di) => {
+  dim.items.forEach((item) => {
+    FLAT.push({
+      globalIndex: FLAT.length,
+      dimIndex: di,
+      dimName: dim.name,
+      dimColor: dim.color,
+      title: item.title,
+      options: item.options
+    });
+  });
+});
+
+/* ============ 渲染表单 ============ */
+function renderForm() {
+  const form = document.getElementById("form");
+  form.innerHTML = "";
+  DATA.forEach((dim, di) => {
+    const dimEl = document.createElement("div");
+    dimEl.className = "dimension";
+    dimEl.style.borderLeftColor = dim.color;
+
+    const h2 = document.createElement("h2");
+    h2.textContent = `【${dim.name}】`;
+    dimEl.appendChild(h2);
+
+    if (dim.desc) {
+      const d = document.createElement("div");
+      d.className = "dim-desc";
+      d.textContent = dim.desc;
+      dimEl.appendChild(d);
+    }
+
+    dim.items.forEach((item) => {
+      const globalIdx = FLAT.findIndex(
+        f => f.dimIndex === di && f.title === item.title
+      );
+
+      const itemEl = document.createElement("div");
+      itemEl.className = "item";
+
+      const t = document.createElement("div");
+      t.className = "item-title";
+      t.textContent = item.title;
+      itemEl.appendChild(t);
+
+      item.options.forEach((opt, oi) => {
+        const label = document.createElement("label");
+        const radio = document.createElement("input");
+        radio.type = "radio";
+        radio.name = `q_${globalIdx}`;
+        radio.value = oi;
+        radio.dataset.globalIndex = globalIdx;
+        radio.addEventListener("change", onAnswerChange);
+        label.appendChild(radio);
+        label.appendChild(document.createTextNode(opt));
+        itemEl.appendChild(label);
+      });
+
+      dimEl.appendChild(itemEl);
+    });
+
+    form.appendChild(dimEl);
+  });
+
+  restoreAnswers();
+}
+
+/* ============ 答案读写 ============ */
+function collectAnswers() {
+  const answers = new Array(FLAT.length).fill(null);
+  document.querySelectorAll('input[type="radio"]:checked').forEach(r => {
+    answers[Number(r.dataset.globalIndex)] = Number(r.value);
+  });
+  return answers;
+}
+
+function restoreAnswers() {
+  let raw;
+  try { raw = localStorage.getItem(STORAGE_KEY); } catch (e) { return; }
+  if (!raw) return;
+  let answers;
+  try { answers = JSON.parse(raw); } catch (e) { return; }
+  if (!Array.isArray(answers)) return;
+  answers.forEach((v, idx) => {
+    if (v === null || v === undefined) return;
+    const sel = document.querySelector(
+      `input[type="radio"][data-global-index="${idx}"][value="${v}"]`
+    );
+    if (sel) sel.checked = true;
+  });
+}
+
+function onAnswerChange() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(collectAnswers()));
+  } catch (e) { /* ignore */ }
+}
+
+/* ============ 视图切换 ============ */
+function showFormView() {
+  document.getElementById("form").style.display = "";
+  document.getElementById("btn-submit").style.display = "";
+  document.getElementById("result").style.display = "none";
+}
+
+function showResultView() {
+  document.getElementById("form").style.display = "none";
+  document.getElementById("btn-submit").style.display = "none";
+}
+
+/* ============ 提交 ============ */
+let radarChart = null;
+
+document.getElementById("btn-submit").addEventListener("click", () => {
+  const answers = collectAnswers();
+  const missing = answers
+    .map((v, i) => (v === null ? FLAT[i].title : null))
+    .filter(Boolean);
+
+  if (missing.length > 0) {
+    alert("还有未选择的子维度：\n" + missing.join("、"));
+    return;
+  }
+
+  showResultView();
+  showResult(answers);
+});
+
+document.getElementById("btn-reset").addEventListener("click", () => {
+  if (!confirm("确定清空所有选择并重新填写吗？")) return;
+  try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+  document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+  showFormView();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
+
+/* ============ 结果展示 ============ */
+function showResult(answers) {
+  const resultEl = document.getElementById("result");
+  resultEl.style.display = "block";
+
+  drawRadar(answers);
+  renderLevelStats(answers);
+  renderRecap(answers);
+
+  resultEl.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function drawRadar(answers) {
+  const labels = FLAT.map(f => f.title);
+  const dataValues = answers.map(v => (v === null ? 0 : v));
+
+  const pointBg = FLAT.map(f => hexToRgba(f.dimColor, 0.55));
+  const pointBorder = FLAT.map(f => f.dimColor);
+
+  const ctx = document.getElementById("radar").getContext("2d");
+
+  if (radarChart) radarChart.destroy();
+
+  radarChart = new Chart(ctx, {
+    type: "radar",
+    data: {
+      labels: labels,
+      datasets: [{
+        label: "得分",
+        data: dataValues,
+        fill: true,
+        backgroundColor: "rgba(44, 107, 237, 0.15)",
+        borderColor: "rgba(44, 107, 237, 0.9)",
+        borderWidth: 2,
+        pointBackgroundColor: pointBg,
+        pointBorderColor: pointBorder,
+        pointBorderWidth: 2,
+        pointRadius: 5,
+        pointHoverRadius: 7
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        r: {
+          min: 0,
+          max: 3,
+          ticks: {
+            stepSize: 1,
+            backdropColor: "transparent",
+            color: "#888"
+          },
+          grid: { color: "#e0e0e0" },
+          angleLines: { color: "#e0e0e0" },
+          pointLabels: {
+            font: { size: 11 },
+            color: "#444"
+          }
+        }
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: (c) => {
+              const idx = c.dataIndex;
+              return `${FLAT[idx].dimName} · ${FLAT[idx].title}：${c.parsed.r} 分`;
+            }
+          }
+        }
+      }
+    }
+  });
+}
+
+function renderLevelStats(answers) {
+  const groups = [[], [], [], []];
+  FLAT.forEach((f, i) => {
+    const v = answers[i];
+    if (v !== null && v >= 0 && v <= 3) groups[v].push(f.title);
+  });
+
+  const container = document.getElementById("level-stats");
+  container.innerHTML = "";
+  for (let lv = 0; lv <= 3; lv++) {
+    const div = document.createElement("div");
+    div.className = "level-group";
+    const names = groups[lv].length ? groups[lv].join("，") : "—";
+    div.innerHTML = `<span class="lv">${lv}级：</span>${escapeHtml(names)}`;
+    container.appendChild(div);
+  }
+}
+
+function renderRecap(answers) {
+  const container = document.getElementById("recap");
+  container.innerHTML = "";
+
+  DATA.forEach((dim, di) => {
+    const dimEl = document.createElement("div");
+    dimEl.className = "dimension";
+    dimEl.style.borderLeftColor = dim.color;
+
+    const h2 = document.createElement("h2");
+    h2.textContent = `【${dim.name}】${dim.desc ? "：" + dim.desc : ""}`;
+    dimEl.appendChild(h2);
+
+    dim.items.forEach(item => {
+      const globalIdx = FLAT.findIndex(
+        f => f.dimIndex === di && f.title === item.title
+      );
+      const chosen = answers[globalIdx];
+
+      const itemEl = document.createElement("div");
+      itemEl.className = "item";
+
+      const t = document.createElement("div");
+      t.className = "item-title";
+      t.textContent = item.title;
+      itemEl.appendChild(t);
+
+      item.options.forEach((opt, oi) => {
+        const line = document.createElement("div");
+        line.className = (oi === chosen) ? "chosen" : "unchosen";
+        line.textContent = (oi === chosen ? "● " : "○ ") + opt;
+        itemEl.appendChild(line);
+      });
+
+      dimEl.appendChild(itemEl);
+    });
+
+    container.appendChild(dimEl);
+  });
+}
+
+/* ============ 保存 txt ============ */
+document.getElementById("btn-save").addEventListener("click", () => {
+  const answers = collectAnswers();
+  const text = buildExportText(answers);
+
+  const d = new Date();
+  const pad = n => String(n).padStart(2, "0");
+  const filename =
+    `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())} ` +
+    `${pad(d.getHours())}${pad(d.getMinutes())}.txt`;
+
+  const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+});
+
+function buildExportText(answers) {
+  const lines = [];
+
+  // 分数统计
+  const groups = [[], [], [], []];
+  FLAT.forEach((f, i) => {
+    const v = answers[i];
+    if (v !== null && v >= 0 && v <= 3) groups[v].push(f.title);
+  });
+  for (let lv = 0; lv <= 3; lv++) {
+    const names = groups[lv].length ? groups[lv].join("，") : "—";
+    lines.push(`${lv}级：${names}`);
+  }
+
+  lines.push("");
+  lines.push("");
+
+  // 选择明细：只保留选中的那一项
+  DATA.forEach((dim, di) => {
+    const head = `【${dim.name}】${dim.desc ? "：" + dim.desc : ""}`;
+    lines.push(head);
+
+    dim.items.forEach(item => {
+      const globalIdx = FLAT.findIndex(
+        f => f.dimIndex === di && f.title === item.title
+      );
+      const chosen = answers[globalIdx];
+      lines.push(`- ${item.title}`);
+      if (chosen !== null) {
+        lines.push(`\t${item.options[chosen]}`);
+      }
+    });
+
+    lines.push("");
+  });
+
+  return lines.join("\n");
+}
+
+/* ============ 工具 ============ */
+function hexToRgba(hex, alpha) {
+  const h = hex.replace("#", "");
+  const bigint = parseInt(h.length === 3
+    ? h.split("").map(c => c + c).join("")
+    : h, 16);
+  const r = (bigint >> 16) & 255;
+  const g = (bigint >> 8) & 255;
+  const b = bigint & 255;
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
+function escapeHtml(s) {
+  return s.replace(/[&<>"']/g, c => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+  }[c]));
+}
+
+/* ============ 初始化 ============ */
+renderForm();
+</script>
+</body>
+</style></head></html><div style="break-before: page; page-break-before: always;"></div>
+<h1 id="4d"><a href="#4d" class="header">4d</a></h1>
+
 <html lang="zh-cn">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -238,7 +982,7 @@ border-width:0;}
 </style>
 </head> 
 <body style="margin: 0 0 0 0">
-<canvas id="cav" style="background:black"></canvas>
+<canvas id="cav-1" style="background:black"></canvas>
 <button id="bt" onclick="obt()">3d</button></body>
 <script>   
 
@@ -502,14 +1246,16 @@ d3=1;
 }}
 </script>
 </html>
-<div style="break-before: page; page-break-before: always;"></div><!DOCTYPE html>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="3d"><a href="#3d" class="header">3d</a></h1>
+
 <html lang="zh-cn">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 </head> 
 <body style="margin: 0 0 0 0">
-<canvas id="cav" style="background:black"></canvas>
+<canvas id="cav-2" style="background:black"></canvas>
 <script>   
 
 window.onresize=function(){
@@ -717,20 +1463,22 @@ return true;
 }}
 </script>
 </body>
-</html><div style="break-before: page; page-break-before: always;"></div><!DOCTYPE html>
+</html><div style="break-before: page; page-break-before: always;"></div>
+<h1 id="nodes"><a href="#nodes" class="header">nodes</a></h1>
+
 <html>
   <head>
     <title>testD3_chp14_1.html</title>
-<script src="tt.js"></script>
-<script src="https://d3js.org/d3.v6.min.js"></script>
-<pre><code>&lt;meta name=&quot;keywords&quot; content=&quot;keyword1,keyword2,keyword3&quot;&gt;
-&lt;meta name=&quot;description&quot; content=&quot;this is my page&quot;&gt;
-&lt;meta name=&quot;content-type&quot; content=&quot;text/html; charset=GBK&quot;&gt;
+   <script src="tt.js"></script>
+   <script src="https://d3js.org/d3.v6.min.js"></script>
+<pre><code>&lt;meta name="keywords" content="keyword1,keyword2,keyword3"&gt;
+&lt;meta name="description" content="this is my page"&gt;
+&lt;meta name="content-type" content="text/html; charset=GBK"&gt;
 
-&lt;!--&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;./styles.css&quot;&gt;--&gt;
+&lt;!--&lt;link rel="stylesheet" type="text/css" href="./styles.css"&gt;--&gt;
 </code></pre>
-</head>
-<body>
+  </head>
+  <body>
     <svg width="960" height="600"></svg>
     <script>
     	var marge = {top:60,bottom:60,left:60,right:60}
@@ -748,22 +1496,22 @@ return true;
 	
 	//新建一个力导向图
 	var forceSimulation = d3.forceSimulation()
-		.force(&quot;link&quot;,d3.forceLink())
-		.force(&quot;charge&quot;,d3.forceManyBody())
-		.force(&quot;center&quot;,d3.forceCenter());;
+		.force("link",d3.forceLink())
+		.force("charge",d3.forceManyBody())
+		.force("center",d3.forceCenter());;
 		
 	//初始化力导向图，也就是传入数据
 	//生成节点数据
 	forceSimulation.nodes(nodes)
-		.on(&quot;tick&quot;,ticked);//这个函数很重要，后面给出具体实现和说明
+		.on("tick",ticked);//这个函数很重要，后面给出具体实现和说明
 	//生成边数据
-	forceSimulation.force(&quot;link&quot;)
+	forceSimulation.force("link")
 		.links(edges)
 		.distance(function(d){//每一边的长度
 			return d.value*100;
 		})    	
 	//设置图形的中心位置	
-	forceSimulation.force(&quot;center&quot;)
+	forceSimulation.force("center")
 		.x(width/2)
 		.y(height/2);
 	//在浏览器的控制台输出
@@ -772,70 +1520,70 @@ return true;
 	
 	//有了节点和边的数据后，我们开始绘制
 	//绘制边
-	var links = g.append(&quot;g&quot;)
-		.selectAll(&quot;line&quot;)
+	var links = g.append("g")
+		.selectAll("line")
 		.data(edges)
 		.enter()
-		.append(&quot;line&quot;)
-		.attr(&quot;stroke&quot;,function(d,i){
+		.append("line")
+		.attr("stroke",function(d,i){
 			return colorScale(i);
 		})
-		.attr(&quot;stroke-width&quot;,1);
-	var linksText = g.append(&quot;g&quot;)
-		.selectAll(&quot;text&quot;)
+		.attr("stroke-width",1);
+	var linksText = g.append("g")
+		.selectAll("text")
 		.data(edges)
 		.enter()
-		.append(&quot;text&quot;)
+		.append("text")
 		.text(function(d){
 			return d.relation;
 		})
 	
 	//绘制节点
 	//老规矩，先为节点和节点上的文字分组
-	var gs = g.selectAll(&quot;.circleText&quot;)
+	var gs = g.selectAll(".circleText")
 		.data(nodes)
 		.enter()
-		.append(&quot;g&quot;)
-		.attr(&quot;transform&quot;,function(d,i){
+		.append("g")
+		.attr("transform",function(d,i){
 			var cirX = d.x;
 			var cirY = d.y;
-			return &quot;translate(&quot;+cirX+&quot;,&quot;+cirY+&quot;)&quot;;
+			return "translate("+cirX+","+cirY+")";
 		})
 		.call(drag(forceSimulation)
 		);
 		
 	//绘制节点
-	gs.append(&quot;circle&quot;)
-		.attr(&quot;r&quot;,10)
-		.attr(&quot;fill&quot;,function(d,i){
+	gs.append("circle")
+		.attr("r",10)
+		.attr("fill",function(d,i){
 			return colorScale(i);
 		})
 	//文字
-	gs.append(&quot;text&quot;)
-		.attr(&quot;x&quot;,-10)
-		.attr(&quot;y&quot;,-20)
-		.attr(&quot;dy&quot;,10)
+	gs.append("text")
+		.attr("x",-10)
+		.attr("y",-20)
+		.attr("dy",10)
 		.text(function(d){
 			return d.name;
 		})
 	
 	function ticked(){
 		links
-			.attr(&quot;x1&quot;,function(d){return d.source.x;})
-			.attr(&quot;y1&quot;,function(d){return d.source.y;})
-			.attr(&quot;x2&quot;,function(d){return d.target.x;})
-			.attr(&quot;y2&quot;,function(d){return d.target.y;});
+			.attr("x1",function(d){return d.source.x;})
+			.attr("y1",function(d){return d.source.y;})
+			.attr("x2",function(d){return d.target.x;})
+			.attr("y2",function(d){return d.target.y;});
 			
 		linksText
-			.attr(&quot;x&quot;,function(d){
+			.attr("x",function(d){
 			return (d.source.x+d.target.x)/2;
 		})
-		.attr(&quot;y&quot;,function(d){
+		.attr("y",function(d){
 			return (d.source.y+d.target.y)/2;
 		});
 			
 		gs
-			.attr(&quot;transform&quot;,function(d) { return &quot;translate(&quot; + d.x + &quot;,&quot; + d.y + &quot;)&quot;; });
+			.attr("transform",function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 	}
 </code></pre>
 <p>function drag(simulation) {</p>
@@ -854,79 +1602,114 @@ event.subject.fx = null;
 event.subject.fy = null;
 }</p>
 <p>return d3.drag()
-.on(&quot;start&quot;, dragstarted)
-.on(&quot;drag&quot;, dragged)
-.on(&quot;end&quot;, dragended);
+.on(“start”, dragstarted)
+.on(“drag”, dragged)
+.on(“end”, dragended);
 }
-</script></p>
-</body>
-</html><div style="break-before: page; page-break-before: always;"></div><h3 id="1146"><a class="header" href="#1146">1146</a></h3>
+</p>
+  
+</script></body></html><div style="break-before: page; page-break-before: always;"></div>
+<h1 id="涧水之迹"><a href="#涧水之迹" class="header">涧水之迹</a></h1>
+<h3 id="1146"><a class="header" href="#1146">1146</a></h3>
 <h1 id="涧水之迹---seelie"><a class="header" href="#涧水之迹---seelie">涧水之迹   SEELIE</a></h1>
-<br/>
+<br />
 <p>『seelie』部分，用于记录我们在各个世界的旅途。</p>
 <p>这里的我们不光是“我们”，还包括逆熵的其他人，以及一些非逆熵的朋友们。</p>
 <p>并且是“各个世界”，而不是某个特定的世界。</p>
 <p>也就是说，会包括多条世界线的故事，并且每条世界线中的法则不一定相同。</p>
-<div style="break-before: page; page-break-before: always;"></div><h3 id="4785"><a class="header" href="#4785">4785</a></h3>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="蔓萝之叶"><a href="#蔓萝之叶" class="header">蔓萝之叶</a></h1>
+<h3 id="4785"><a class="header" href="#4785">4785</a></h3>
 <h1 id="蔓萝之叶---hyleef"><a class="header" href="#蔓萝之叶---hyleef">蔓萝之叶   HYLEEF</a></h1>
-<br/>
-<p>『hyleef』部分，用于记录逆熵的生物部在蔓萝<sup class="footnote-reference"><a href="#&lt;sup&gt;1&lt;/sup&gt;">1</a></sup>星球上的各种造物。</p>
+<br />
+<p>『hyleef』部分，用于记录逆熵的生物部在蔓萝<sup class="footnote-reference" id="fr-&lt;sup&gt;1&lt;/sup&gt;-1-1"><a href="#footnote-&lt;sup&gt;1&lt;/sup&gt;-1">1</a></sup>星球上的各种造物。</p>
 <p>造物范围覆盖动物、植物和其他较低级的生物，尚未制造类人的高智慧生物。</p>
 <p>除了创造之外，也有部分研究人员在对这些生物与蔓萝环境的交互以及进化历程进行研究。</p>
-<br/>
-<div class="footnote-definition" id="&lt;sup&gt;1&lt;/sup&gt;"><sup class="footnote-definition-label">1</sup>
-<p>蔓萝，白星星系第四颗行星，与第三颗行星蓝冰组成了一个双星系统。</br>是一颗人造的行星，由行星改造舰转变而成。</p>
-</div>
-<div style="break-before: page; page-break-before: always;"></div><h3 id="9321"><a class="header" href="#9321">9321</a></h3>
+<br />
+<hr>
+<ol class="footnote-definition">
+<li id="footnote-&lt;sup&gt;1&lt;/sup&gt;-1">
+<p>蔓萝，白星星系第四颗行星，与第三颗行星蓝冰组成了一个双星系统。<br>是一颗人造的行星，由行星改造舰转变而成。 <a href="#fr-&lt;sup&gt;1&lt;/sup&gt;-1-1">↩</a></p>
+</li>
+</ol>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="环星之舰"><a href="#环星之舰" class="header">环星之舰</a></h1>
+<h3 id="9321"><a class="header" href="#9321">9321</a></h3>
 <h1 id="环星之舰---liyet"><a class="header" href="#环星之舰---liyet">环星之舰   LIYET</a></h1>
-<br/>
+<br />
 <p>『liyet』部分，用于记录和描述逆熵。</p>
 <p>包括逆熵的组织结构、人员情况、设施配备等情况。</p>
-<p>并且包含计划中/架空中的环星舰、行星改造舰、天球座等的信息<sup class="footnote-reference"><a href="#&lt;sup&gt;1&lt;/sup&gt;">1</a></sup>。</p>
-<br/>
-<div class="footnote-definition" id="&lt;sup&gt;1&lt;/sup&gt;"><sup class="footnote-definition-label">1</sup>
-<p>此处只记录与逆熵有直接关系，或由逆熵设计建造的工程，其他的归入<a href="9321/../6371/index.html">繁星之律『sternche』</a>中。</p>
-</div>
-<div style="break-before: page; page-break-before: always;"></div><h3 id="8102"><a class="header" href="#8102">8102</a></h3>
+<p>并且包含计划中/架空中的环星舰、行星改造舰、天球座等的信息<sup class="footnote-reference" id="fr-&lt;sup&gt;1&lt;/sup&gt;-1-2"><a href="#footnote-&lt;sup&gt;1&lt;/sup&gt;-2">1</a></sup>。</p>
+<br />
+<hr>
+<ol class="footnote-definition">
+<li id="footnote-&lt;sup&gt;1&lt;/sup&gt;-2">
+<p>此处只记录与逆熵有直接关系，或由逆熵设计建造的工程，其他的归入<a href="#繁星之律">繁星之律『sternche』</a>中。 <a href="#fr-&lt;sup&gt;1&lt;/sup&gt;-1-2">↩</a></p>
+</li>
+</ol>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="坠神之海"><a href="#坠神之海" class="header">坠神之海</a></h1>
+<h3 id="8102"><a class="header" href="#8102">8102</a></h3>
 <h1 id="坠神之海---kirusphen"><a class="header" href="#坠神之海---kirusphen">坠神之海   KIRUSPHEN</a></h1>
-<br/>
-<p>『kirusphen』部分，用于记录『我们』的海<sup class="footnote-reference"><a href="#&lt;sup&gt;1&lt;/sup&gt;">1</a></sup>。</p>
+<br />
+<p>『kirusphen』部分，用于记录『我们』的海<sup class="footnote-reference" id="fr-&lt;sup&gt;1&lt;/sup&gt;-1-3"><a href="#footnote-&lt;sup&gt;1&lt;/sup&gt;-3">1</a></sup>。</p>
 <p>包括思维之海的信息提取分析、逆面分析，和遗忘之海的结构改进。</p>
 <p>以及关于坠神之海的封印和禁忌的研究。</p>
-<br/>
-<div class="footnote-definition" id="&lt;sup&gt;1&lt;/sup&gt;"><sup class="footnote-definition-label">1</sup>
-<p>海，一种储存了大量事物的结构，在低维只有物质海能够具象化，信息海则需要通过维度补偿器才能具象化。</p>
-</div>
+<br />
+<hr>
+<ol class="footnote-definition">
+<li id="footnote-&lt;sup&gt;1&lt;/sup&gt;-3">
+<p>海，一种储存了大量事物的结构，在低维只有物质海能够具象化，信息海则需要通过维度补偿器才能具象化。 <a href="#fr-&lt;sup&gt;1&lt;/sup&gt;-1-3">↩</a></p>
+</li>
+</ol>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
+
+
                         <div style="clear: both"></div>
                     </nav>
                 </div>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
             </nav>
 
         </div>
 
-        <script type="text/javascript">
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
             window.playground_copyable = true;
         </script>
-        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
-        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
-        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-609e4cb8.js"></script>
 
         <!-- Custom JS scripts -->
-        <script type="text/javascript">
+
+        <script>
         window.addEventListener('load', function() {
             window.setTimeout(window.print, 100);
         });
         </script>
+
+
+    </div>
     </body>
 </html>

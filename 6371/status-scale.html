@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>状态自评量表</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+                 "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 24px 16px 80px;
+    line-height: 1.6;
+    color: #222;
+  }
+  h1 { font-size: 1.6em; margin-bottom: 0.2em; }
+  .subtitle { color: #666; font-size: 0.9em; margin-bottom: 2em; }
+
+  .dimension {
+    border-left: 4px solid #ccc;
+    padding-left: 14px;
+    margin: 28px 0;
+  }
+  .dimension > h2 {
+    font-size: 1.15em;
+    margin: 0 0 4px 0;
+  }
+  .dimension > .dim-desc {
+    color: #888;
+    font-size: 0.85em;
+    margin-bottom: 12px;
+  }
+
+  .item {
+    margin: 14px 0 18px;
+  }
+  .item > .item-title {
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .item label {
+    display: block;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.12s;
+  }
+  .item label:hover { background: #f2f2f2; }
+  .item input[type="radio"] { margin-right: 8px; }
+
+  .actions {
+    margin: 32px 0 0;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  button {
+    font-size: 1em;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: 1px solid #bbb;
+    background: #fff;
+    cursor: pointer;
+  }
+  button.primary {
+    background: #2c6bed;
+    color: #fff;
+    border-color: #2c6bed;
+  }
+  button:hover { opacity: 0.9; }
+
+  #result {
+    margin-top: 40px;
+    display: none;
+  }
+  #result h2 { font-size: 1.2em; border-bottom: 2px solid #eee; padding-bottom: 6px; }
+  #result .result-title {
+    font-size: 1.5em;
+    border-bottom: none;
+    padding-bottom: 0;
+    margin: 0 0 20px 0;
+  }
+
+  .chart-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 620px;
+    margin: 0 auto 32px;
+  }
+
+  .level-group {
+    margin: 8px 0;
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 0.95em;
+  }
+  .level-group .lv { font-weight: 700; margin-right: 4px; }
+
+  .recap .dimension { border-left-color: #ddd; }
+  .recap .chosen {
+    background: #eef4ff;
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-weight: 600;
+  }
+  .recap .unchosen {
+    color: #aaa;
+    padding: 6px 10px;
+  }
+  .recap .item-title { font-weight: 600; }
+
+  .save-bar { margin-top: 28px; }
+
+  @media print {
+    .actions, .save-bar { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<h1>状态自评量表</h1>
+<p class="subtitle">每个子维度为单选题，请选择最贴近你当前状态的一项。</p>
+
+<div id="form"></div>
+
+<div class="actions">
+  <button class="primary" id="btn-submit">确认完成</button>
+  <button id="btn-reset">清空重填</button>
+</div>
+
+<div id="result">
+  <h2 class="result-title">测试结果</h2>
+
+  <div class="chart-wrap">
+    <canvas id="radar"></canvas>
+  </div>
+
+  <h2>分数统计</h2>
+  <div id="level-stats"></div>
+
+  <h2 style="margin-top:40px;">选择明细</h2>
+  <div id="recap" class="recap"></div>
+
+  <div class="save-bar">
+    <button class="primary" id="btn-save">保存为 txt</button>
+  </div>
+</div>
+
+<script>
+/* ============ 数据定义 ============ */
+const DATA = [
+  {
+    name: "生理状态管理",
+    desc: "睡眠、运动、饮食、医疗、能量管理",
+    color: "#e57373",
+    items: [
+      {
+        title: "健康状态",
+        options: [
+          "只感觉状态很差，不知道怎么回事",
+          "知道自己有状态变化，但不知道怎么调整",
+          "有意识的调节自己的身心状态，掌握了一些低谷时调节的技巧",
+          "精神饱满，精力旺盛，有心力去做自己想做的事"
+        ]
+      },
+      {
+        title: "恢复调配",
+        options: [
+          "不想休息，完全不花精力在自己身上",
+          "知道应该休息，但不知道该怎么做，还是经常很累",
+          "知道一些生活的条例和方法，有意识的放松休息，能在重要事情上保持较好的精神",
+          "已经养成了良好的生活习惯，身体成为强大的支撑"
+        ]
+      }
+    ]
+  },
+  {
+    name: "心理状态管理",
+    desc: "情绪、调节、压力管理",
+    color: "#ffb74d",
+    items: [
+      {
+        title: "情绪管理",
+        options: [
+          "完全任由情绪产生和发泄，事后才意识到",
+          "能知道自己在情绪中，但只能等它过去，或只能压制情绪",
+          "能当下识别并控制情绪，但尚未与情绪和平共处",
+          "能发觉情绪并自主调节情绪，不让情绪主导，也不积压情绪"
+        ]
+      },
+      {
+        title: "压力管理",
+        options: [
+          "焦虑、逃避、不舒服，不知道从哪来的压力，也完全无法应对",
+          "知道自己有压力，但不知道怎么解决，只能硬抗",
+          "有应对压力的方法，有意识处理压力源，在压力面前仍能运作，但消耗心力",
+          "主动管理压力，压力都被转化为动力或被释放，不影响身心健康与思考判断"
+        ]
+      }
+    ]
+  },
+  {
+    name: "价值意义状态",
+    desc: "",
+    color: "#fff176",
+    items: [
+      {
+        title: "价值感 / 意义感",
+        options: [
+          "感到虚无，什么都没有意义",
+          "觉得只有当下的快乐有意义",
+          "愿意发展自我，为长远的事情做准备",
+          "认为存在自己的使命，愿意为使命而努力"
+        ]
+      }
+    ]
+  },
+  {
+    name: "自我实现",
+    desc: "自我、时空、飞船、使命",
+    color: "#81c784",
+    items: [
+      {
+        title: "憧憬 / 接触 / 贴近",
+        options: [
+          "完全没做相关的事，时间精力花在别的事上了",
+          "只做了些间接有关的，或推进了些项目的前置",
+          "有所投入，推进了部分项目",
+          "完全沉浸地投入了大量时间，进入心流状态"
+        ]
+      }
+    ]
+  },
+  {
+    name: "心智功能",
+    desc: "",
+    color: "#4fc3f7",
+    items: [
+      {
+        title: "时间分配 / 项目分配",
+        options: [
+          "想到什么做什么，没有规划；三分钟热度，感到很难做完任何事情",
+          "会列出计划，但完不成；或是只能做完一件事，多了就做不完",
+          "能够按时完成计划；能合理调配，分出轻重缓急，完成最重要的几件事情",
+          "能合理安排并运用时间；无论多忙都能得心应手"
+        ]
+      },
+      {
+        title: "认知",
+        options: [
+          "思绪沉重而混乱，难以思考或不愿思考",
+          "思绪模糊，只知道个大概；或是不明所以，只知道跟着做",
+          "能独立思考分析，看到问题或方法的本质",
+          "思路明晰，思域广阔，且能够回归并作用于现实"
+        ]
+      },
+      {
+        title: "判断决策",
+        options: [
+          "冲动决策，或完全由外界影响决定",
+          "知道应该权衡利弊后做决定，但不知道怎么思考",
+          "知道如何选择，能够权衡自己的得失",
+          "能应对风险，在不确定的情形下做出判断"
+        ]
+      }
+    ]
+  },
+  {
+    name: "情感状态",
+    desc: "边界、修复、自爱、自尊",
+    color: "#ba68c8",
+    items: [
+      {
+        title: "自我边界",
+        options: [
+          "很容易被别人的评价影响，经常改变自己的决定",
+          "知道应该有自己的决定，但还是难以拒绝别人，或总是顺从别人的期望",
+          "在大部分事情上有自己的选择，但还是会受权威或亲密关系的影响，在冲突中总是退让",
+          "能清楚分离自己的事与别人的事，不被别人影响但能听取建议"
+        ]
+      },
+      {
+        title: "自我爱护",
+        options: [
+          "总是在消耗自己，甚至会伤害自己",
+          "知道应该照顾自己，但不知道怎么做，有时也觉得不配",
+          "知道如何照顾自己，但需要意志力才能做到，有时需要被提醒",
+          "照顾自己是生活的一部分，总是能把自己照顾得很好"
+        ]
+      },
+      {
+        title: "自尊状态",
+        options: [
+          "害怕被否定，总是期望得到认可",
+          "有一定独立性，但还是经常自我怀疑；自我价值不稳定，在自卑和自傲之间摆动",
+          "能做到自我肯定，但还是需要亲友的鼓励；被批评时虽动摇但能恢复过来",
+          "有稳定的自尊，不随外界评价波动；不自大也不自卑，承认错误的同时不否定自己"
+        ]
+      }
+    ]
+  },
+  {
+    name: "自我负责",
+    desc: "",
+    color: "#a1887f",
+    items: [
+      {
+        title: "责任",
+        options: [
+          "逃避，不愿面对自己的选择，或不愿做出选择",
+          "会被动承担责任，但并不真正理解和负责",
+          "能面对并承担自己的选择和责任",
+          "为自己负责，然后也为共同体负责；能分清不同的责任"
+        ]
+      }
+    ]
+  },
+  {
+    name: "社交状态",
+    desc: "",
+    color: "#90a4ae",
+    items: [
+      {
+        title: "人际",
+        options: [
+          "疏离，感到孤独，没有可说话的人",
+          "部分接触，有些点头之交的普通朋友",
+          "关系平衡且恰当，能与好朋友互相促进成长",
+          "关系失衡，过度干预扰乱双方生活与精神"
+        ]
+      }
+    ]
+  }
+];
+
+/* ============ 常量 ============ */
+const STORAGE_KEY = "scale_answers_v1";
+const FLAT = [];
+DATA.forEach((dim, di) => {
+  dim.items.forEach((item) => {
+    FLAT.push({
+      globalIndex: FLAT.length,
+      dimIndex: di,
+      dimName: dim.name,
+      dimColor: dim.color,
+      title: item.title,
+      options: item.options
+    });
+  });
+});
+
+/* ============ 渲染表单 ============ */
+function renderForm() {
+  const form = document.getElementById("form");
+  form.innerHTML = "";
+  DATA.forEach((dim, di) => {
+    const dimEl = document.createElement("div");
+    dimEl.className = "dimension";
+    dimEl.style.borderLeftColor = dim.color;
+
+    const h2 = document.createElement("h2");
+    h2.textContent = `【${dim.name}】`;
+    dimEl.appendChild(h2);
+
+    if (dim.desc) {
+      const d = document.createElement("div");
+      d.className = "dim-desc";
+      d.textContent = dim.desc;
+      dimEl.appendChild(d);
+    }
+
+    dim.items.forEach((item) => {
+      const globalIdx = FLAT.findIndex(
+        f => f.dimIndex === di && f.title === item.title
+      );
+
+      const itemEl = document.createElement("div");
+      itemEl.className = "item";
+
+      const t = document.createElement("div");
+      t.className = "item-title";
+      t.textContent = item.title;
+      itemEl.appendChild(t);
+
+      item.options.forEach((opt, oi) => {
+        const label = document.createElement("label");
+        const radio = document.createElement("input");
+        radio.type = "radio";
+        radio.name = `q_${globalIdx}`;
+        radio.value = oi;
+        radio.dataset.globalIndex = globalIdx;
+        radio.addEventListener("change", onAnswerChange);
+        label.appendChild(radio);
+        label.appendChild(document.createTextNode(opt));
+        itemEl.appendChild(label);
+      });
+
+      dimEl.appendChild(itemEl);
+    });
+
+    form.appendChild(dimEl);
+  });
+
+  restoreAnswers();
+}
+
+/* ============ 答案读写 ============ */
+function collectAnswers() {
+  const answers = new Array(FLAT.length).fill(null);
+  document.querySelectorAll('input[type="radio"]:checked').forEach(r => {
+    answers[Number(r.dataset.globalIndex)] = Number(r.value);
+  });
+  return answers;
+}
+
+function restoreAnswers() {
+  let raw;
+  try { raw = localStorage.getItem(STORAGE_KEY); } catch (e) { return; }
+  if (!raw) return;
+  let answers;
+  try { answers = JSON.parse(raw); } catch (e) { return; }
+  if (!Array.isArray(answers)) return;
+  answers.forEach((v, idx) => {
+    if (v === null || v === undefined) return;
+    const sel = document.querySelector(
+      `input[type="radio"][data-global-index="${idx}"][value="${v}"]`
+    );
+    if (sel) sel.checked = true;
+  });
+}
+
+function onAnswerChange() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(collectAnswers()));
+  } catch (e) { /* ignore */ }
+}
+
+/* ============ 视图切换 ============ */
+function showFormView() {
+  document.getElementById("form").style.display = "";
+  document.getElementById("btn-submit").style.display = "";
+  document.getElementById("result").style.display = "none";
+}
+
+function showResultView() {
+  document.getElementById("form").style.display = "none";
+  document.getElementById("btn-submit").style.display = "none";
+}
+
+/* ============ 提交 ============ */
+let radarChart = null;
+
+document.getElementById("btn-submit").addEventListener("click", () => {
+  const answers = collectAnswers();
+  const missing = answers
+    .map((v, i) => (v === null ? FLAT[i].title : null))
+    .filter(Boolean);
+
+  if (missing.length > 0) {
+    alert("还有未选择的子维度：\n" + missing.join("、"));
+    return;
+  }
+
+  showResultView();
+  showResult(answers);
+});
+
+document.getElementById("btn-reset").addEventListener("click", () => {
+  if (!confirm("确定清空所有选择并重新填写吗？")) return;
+  try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+  document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+  showFormView();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
+
+/* ============ 结果展示 ============ */
+function showResult(answers) {
+  const resultEl = document.getElementById("result");
+  resultEl.style.display = "block";
+
+  drawRadar(answers);
+  renderLevelStats(answers);
+  renderRecap(answers);
+
+  resultEl.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function drawRadar(answers) {
+  const labels = FLAT.map(f => f.title);
+  const dataValues = answers.map(v => (v === null ? 0 : v));
+
+  const pointBg = FLAT.map(f => hexToRgba(f.dimColor, 0.55));
+  const pointBorder = FLAT.map(f => f.dimColor);
+
+  const ctx = document.getElementById("radar").getContext("2d");
+
+  if (radarChart) radarChart.destroy();
+
+  radarChart = new Chart(ctx, {
+    type: "radar",
+    data: {
+      labels: labels,
+      datasets: [{
+        label: "得分",
+        data: dataValues,
+        fill: true,
+        backgroundColor: "rgba(44, 107, 237, 0.15)",
+        borderColor: "rgba(44, 107, 237, 0.9)",
+        borderWidth: 2,
+        pointBackgroundColor: pointBg,
+        pointBorderColor: pointBorder,
+        pointBorderWidth: 2,
+        pointRadius: 5,
+        pointHoverRadius: 7
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        r: {
+          min: 0,
+          max: 3,
+          ticks: {
+            stepSize: 1,
+            backdropColor: "transparent",
+            color: "#888"
+          },
+          grid: { color: "#e0e0e0" },
+          angleLines: { color: "#e0e0e0" },
+          pointLabels: {
+            font: { size: 11 },
+            color: "#444"
+          }
+        }
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: (c) => {
+              const idx = c.dataIndex;
+              return `${FLAT[idx].dimName} · ${FLAT[idx].title}：${c.parsed.r} 分`;
+            }
+          }
+        }
+      }
+    }
+  });
+}
+
+function renderLevelStats(answers) {
+  const groups = [[], [], [], []];
+  FLAT.forEach((f, i) => {
+    const v = answers[i];
+    if (v !== null && v >= 0 && v <= 3) groups[v].push(f.title);
+  });
+
+  const container = document.getElementById("level-stats");
+  container.innerHTML = "";
+  for (let lv = 0; lv <= 3; lv++) {
+    const div = document.createElement("div");
+    div.className = "level-group";
+    const names = groups[lv].length ? groups[lv].join("，") : "—";
+    div.innerHTML = `<span class="lv">${lv}级：</span>${escapeHtml(names)}`;
+    container.appendChild(div);
+  }
+}
+
+function renderRecap(answers) {
+  const container = document.getElementById("recap");
+  container.innerHTML = "";
+
+  DATA.forEach((dim, di) => {
+    const dimEl = document.createElement("div");
+    dimEl.className = "dimension";
+    dimEl.style.borderLeftColor = dim.color;
+
+    const h2 = document.createElement("h2");
+    h2.textContent = `【${dim.name}】${dim.desc ? "：" + dim.desc : ""}`;
+    dimEl.appendChild(h2);
+
+    dim.items.forEach(item => {
+      const globalIdx = FLAT.findIndex(
+        f => f.dimIndex === di && f.title === item.title
+      );
+      const chosen = answers[globalIdx];
+
+      const itemEl = document.createElement("div");
+      itemEl.className = "item";
+
+      const t = document.createElement("div");
+      t.className = "item-title";
+      t.textContent = item.title;
+      itemEl.appendChild(t);
+
+      item.options.forEach((opt, oi) => {
+        const line = document.createElement("div");
+        line.className = (oi === chosen) ? "chosen" : "unchosen";
+        line.textContent = (oi === chosen ? "● " : "○ ") + opt;
+        itemEl.appendChild(line);
+      });
+
+      dimEl.appendChild(itemEl);
+    });
+
+    container.appendChild(dimEl);
+  });
+}
+
+/* ============ 保存 txt ============ */
+document.getElementById("btn-save").addEventListener("click", () => {
+  const answers = collectAnswers();
+  const text = buildExportText(answers);
+
+  const d = new Date();
+  const pad = n => String(n).padStart(2, "0");
+  const filename =
+    `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())} ` +
+    `${pad(d.getHours())}${pad(d.getMinutes())}.txt`;
+
+  const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+});
+
+function buildExportText(answers) {
+  const lines = [];
+
+  // 分数统计
+  const groups = [[], [], [], []];
+  FLAT.forEach((f, i) => {
+    const v = answers[i];
+    if (v !== null && v >= 0 && v <= 3) groups[v].push(f.title);
+  });
+  for (let lv = 0; lv <= 3; lv++) {
+    const names = groups[lv].length ? groups[lv].join("，") : "—";
+    lines.push(`${lv}级：${names}`);
+  }
+
+  lines.push("");
+  lines.push("");
+
+  // 选择明细：只保留选中的那一项
+  DATA.forEach((dim, di) => {
+    const head = `【${dim.name}】${dim.desc ? "：" + dim.desc : ""}`;
+    lines.push(head);
+
+    dim.items.forEach(item => {
+      const globalIdx = FLAT.findIndex(
+        f => f.dimIndex === di && f.title === item.title
+      );
+      const chosen = answers[globalIdx];
+      lines.push(`- ${item.title}`);
+      if (chosen !== null) {
+        lines.push(`\t${item.options[chosen]}`);
+      }
+    });
+
+    lines.push("");
+  });
+
+  return lines.join("\n");
+}
+
+/* ============ 工具 ============ */
+function hexToRgba(hex, alpha) {
+  const h = hex.replace("#", "");
+  const bigint = parseInt(h.length === 3
+    ? h.split("").map(c => c + c).join("")
+    : h, 16);
+  const r = (bigint >> 16) & 255;
+  const g = (bigint >> 8) & 255;
+  const b = bigint & 255;
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
+function escapeHtml(s) {
+  return s.replace(/[&<>"']/g, c => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+  }[c]));
+}
+
+/* ============ 初始化 ============ */
+renderForm();
+</script>
+
+</body>
+</html>
