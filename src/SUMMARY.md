@@ -14,6 +14,8 @@
 
 - [繁星之律](6371/README.md)
 
+  - [状态仪表盘](6371/status-scale.html)
+
   - [4d](6371/4d.html)
 
   - [3d](6371/3d.html)
